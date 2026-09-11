@@ -1,0 +1,1261 @@
+<!doctype html>
+<html lang="ja" translate="no">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fcfcfc" />
+    <meta name="description" content="声だけで授乳や毎日の育児記録。記録のあとは、次のタイミングもそっとお知らせ。" />
+    <title>すくすくぱしゃ | 声だけで、記録はおしまい。</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&amp;family=Zen+Kaku+Gothic+New:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        /* shadcn semantic tokens mapped to the provided Japanese palette */
+        --background: #fffefa;
+        --foreground: #343330;
+        --primary: #2aaabd;
+        --primary-foreground: #ffffff;
+        --secondary: #f7f4ef;
+        --secondary-foreground: #3e3e3e;
+        --muted: #f6f3ee;
+        --muted-foreground: #6f6c67;
+        --accent: #e978a2;
+        --accent-soft: #fff3f8;
+        --success: #4c9353;
+        --border: #ded8cf;
+        --card: #ffffff;
+        --warm: #fff3c4;
+        --line-height: 1.7;
+        --space-1: 4px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 40px;
+        --space-7: 64px;
+        --radius-sm: 8px;
+        --radius-md: 16px;
+        --radius-lg: 24px;
+        --radius-pill: 999px;
+        --radius: var(--radius-lg);
+        --font-body: "Zen Kaku Gothic New", "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+        --font-display: "M PLUS Rounded 1c", "Zen Kaku Gothic New", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+        font-family: var(--font-body);
+        color: var(--foreground);
+        background: #ececef;
+        font-synthesis: none;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { min-width: 320px; margin: 0; background: #ebe9e5; color: var(--foreground); font-family: var(--font-body); font-size: 15px; line-height: var(--line-height); letter-spacing: .018em; overflow-wrap: break-word; line-break: strict; font-feature-settings: normal; }
+      body, button, a { -webkit-tap-highlight-color: transparent; }
+      button, input { font: inherit; }
+      button { cursor: pointer; }
+      button:disabled { cursor: default; }
+      a { color: inherit; text-decoration: none; }
+      :focus-visible { outline: 3px solid rgba(255,159,22,.45); outline-offset: 3px; }
+
+      .page { width: min(100%, 480px); min-height: 100vh; margin: 0 auto; overflow: hidden; background: var(--background); box-shadow: 0 0 42px rgba(70,63,52,.08); }
+      .wrap { width: min(calc(100% - (var(--space-4) * 2)), 414px); margin: 0 auto; }
+      .topbar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; min-height: 60px; padding: 0 var(--space-4); border-bottom: 1px solid rgba(222,216,207,.9); background: rgba(255,254,250,.96); backdrop-filter: blur(16px); }
+      .brand { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-display); font-size: 14px; font-weight: 800; letter-spacing: .01em; }
+      .brand-logo { display: block; width: 172px; height: auto; mix-blend-mode: multiply; }
+      .brand-local { display: none; }
+      .brand-mark { display: grid; place-items: center; width: 29px; height: 29px; border: 2px solid var(--foreground); border-radius: 9px; color: var(--foreground); background: #f4d84e; font-size: 12px; font-weight: 900; box-shadow: 2px 2px 0 rgba(52,51,48,.15); }
+      .brand-mark { animation: brand-pop .48s .16s cubic-bezier(.2,.9,.3,1.2) both; }
+      .language-switch { display: flex; gap: 2px; padding: 2px; border: 1px solid var(--border); border-radius: 999px; background: #fff; }
+      .language-switch button { min-width: 38px; min-height: 34px; padding: 0 8px; border: 0; border-radius: 999px; color: var(--muted-foreground); background: transparent; font-size: 10px; font-weight: 700; }
+      .language-switch button[aria-pressed="true"] { color: var(--foreground); background: var(--warm); }
+      .language-switch[hidden] { display: none; }
+
+      /* Component primitives mirror shadcn's Button/Card/Badge composition in static HTML. */
+      .ui-card { border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
+      .ui-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+      .ui-card-content { min-width: 0; }
+      .ui-card-footer { display: flex; align-items: center; gap: 10px; }
+      .ui-badge { display: inline-flex; align-items: center; min-height: 24px; width: fit-content; padding: 2px 9px; border-radius: 999px; font-size: 10px; font-weight: 800; line-height: 1.2; }
+      .ui-badge-live { color: var(--accent); background: var(--accent-soft); }
+      .ui-badge-success { color: var(--success); background: #eafaf3; }
+      .ui-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 54px; padding: var(--space-2) var(--space-5); border: 1px solid transparent; border-radius: 12px; font-family: var(--font-display); font-size: 14px; font-weight: 800; line-height: 1.35; letter-spacing: .025em; transition: transform .2s, background .2s, border-color .2s, box-shadow .2s, opacity .2s; }
+      .ui-button:active { transform: scale(.985); }
+      .ui-button-primary { color: var(--primary-foreground); border-color: #1e7f8e; background: var(--primary); box-shadow: 0 4px 0 #1e7f8e; }
+      .ui-button-primary:hover, .ui-button-primary:focus-visible { background: #2399aa; box-shadow: 0 4px 0 #176b77; }
+      .ui-button-secondary { color: var(--secondary-foreground); background: var(--secondary); }
+      .ui-button-outline { color: var(--foreground); border-color: var(--border); background: transparent; }
+      .ui-button-outline:hover, .ui-button-outline:focus-visible { border-color: var(--primary); background: var(--warm); }
+      .ui-button-ghost { color: var(--muted-foreground); background: transparent; }
+      .ui-button-ghost:hover, .ui-button-ghost:focus-visible { color: var(--foreground); background: var(--muted); }
+      .ui-button-block { width: 100%; }
+      .ui-separator { width: 100%; height: 1px; background: var(--border); }
+      .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+      .hero { position: relative; overflow: hidden; padding: 48px 0 58px; background: linear-gradient(180deg, #fffefa 0%, #fffefa 74%, #f2fafb 100%); }
+      .hero::before, .hero::after { content: ""; position: absolute; pointer-events: none; border-radius: 50%; opacity: 0; }
+      .hero::before { top: 48px; right: -34px; width: 92px; height: 92px; background: #fdf5fa; animation: soft-orbit 4.8s .7s ease-in-out 2 both; }
+      .hero::after { bottom: 34px; left: -22px; width: 64px; height: 64px; background: #f0f9fa; animation: soft-orbit-reverse 4.2s 1.1s ease-in-out 2 both; }
+      .hero-wrap { position: relative; z-index: 1; }
+      .hero-wrap > * { opacity: 0; animation: hero-rise .58s cubic-bezier(.2,.8,.2,1) both; }
+      .hero-wrap > :nth-child(1) { animation-delay: .08s; }
+      .hero-wrap > :nth-child(2) { animation-delay: .17s; }
+      .hero-wrap > :nth-child(3) { animation-delay: .29s; }
+      .hero-wrap > :nth-child(4) { animation-delay: .41s; }
+      .hero-wrap > :nth-child(5) { animation-delay: .52s; }
+      .hero-kicker, .section-kicker { width: fit-content; margin: 0 0 var(--space-4); padding: 5px 10px; border: 2px solid var(--foreground); border-radius: 6px; color: var(--foreground); background: #f5dc57; font-family: var(--font-display); font-size: 11px; font-weight: 800; letter-spacing: .06em; line-height: 1.2; box-shadow: 2px 2px 0 rgba(52,51,48,.14); }
+      .hero-kicker { display: inline-flex; background: #ffe3ed; transform: rotate(-1deg); }
+      .hero h1 { width: 100%; margin: 0 0 var(--space-4); color: var(--foreground); font-family: var(--font-display); font-size: clamp(40px, 10.8vw, 50px); font-weight: 900; line-height: 1.25; letter-spacing: .005em; }
+      .hero h1 em { position: relative; z-index: 0; display: inline-block; color: #d95f8d; font-style: normal; white-space: nowrap; -webkit-text-stroke: 4px #fff; paint-order: stroke fill; }
+      .hero h1 em::after { content: ""; position: absolute; right: 0; bottom: -2px; left: 0; z-index: -1; height: 9px; border-radius: 3px; background: #f4d84e; transform: scaleX(0) rotate(-1deg); transform-origin: left center; animation: underline-draw .52s .7s cubic-bezier(.2,.8,.2,1) both; }
+      .hero-copy { margin: 0 0 var(--space-5); color: var(--muted-foreground); font-size: 15px; font-weight: 500; line-height: 1.85; }
+      .hero-action { display: grid; gap: var(--space-2); }
+      .hero-action .ui-button { width: 100%; min-height: 57px; padding-inline: var(--space-5); color: var(--primary-foreground); background: var(--primary); font-size: 15px; }
+      .hero-action .ui-button span:last-child { animation: arrow-nudge 1.1s 1.1s ease-in-out 3 both; }
+      .hero-note { display: flex; align-items: center; justify-content: center; gap: var(--space-2); margin: 0; color: var(--muted-foreground); font-size: 10px; line-height: 1.6; text-align: center; }
+      .hero-note::before { content: "✓"; display: grid; place-items: center; width: 17px; height: 17px; flex: 0 0 auto; border-radius: 50%; color: var(--success); background: #f3fff4; font-weight: 900; }
+      .hero-peek { display: grid; gap: var(--space-3); margin: 30px 4px 0 0; padding: var(--space-4); border: 2px solid var(--foreground); border-radius: 17px; background: #fff; box-shadow: 5px 5px 0 #cfeef2; }
+      .hero-peek-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+      .hero-peek-top strong { color: var(--foreground); font-family: var(--font-display); font-size: 11px; font-weight: 800; }
+      .hero-peek-top span { color: #ba6b8f; font-size: 9px; font-weight: 700; }
+      .hero-voice-row { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; align-items: center; gap: var(--space-3); padding: var(--space-3); border-radius: var(--radius-md); background: #f1fafb; }
+      .hero-mini-wave { display: flex; height: 28px; align-items: center; justify-content: center; gap: 2px; }
+      .hero-mini-wave i { width: 3px; height: 8px; border-radius: 99px; background: var(--primary); animation: wave .55s ease-in-out infinite alternate; }
+      .hero-mini-wave i:nth-child(2), .hero-mini-wave i:nth-child(4) { height: 18px; animation-delay: -.22s; }
+      .hero-mini-wave i:nth-child(3) { height: 25px; animation-delay: -.36s; }
+      .hero-voice-copy { display: grid; min-width: 0; gap: 1px; }
+      .hero-voice-copy small { color: var(--muted-foreground); font-size: 9px; }
+      .hero-voice-copy strong { overflow: hidden; color: var(--foreground); font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+      .hero-auto-badge { padding: 4px 8px; border: 1px solid #b9d9bd; border-radius: var(--radius-pill); color: var(--success); background: #edf8ef; font-size: 9px; font-weight: 700; white-space: nowrap; }
+      .hero-result-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--space-2); color: var(--muted-foreground); font-size: 10px; }
+      .hero-result-row::before { content: "✓"; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 8px; color: #fff; background: var(--success); font-weight: 800; }
+      .hero-result-row strong { color: var(--foreground); font-size: 11px; }
+      .hero-result-row span:last-child { color: #ba6b8f; font-size: 9px; font-weight: 700; }
+
+      .experience-section { padding: 72px 0; background: #faf7f0; }
+      .section-title { margin: 0 0 var(--space-3); color: var(--foreground); font-family: var(--font-display); font-size: 30px; font-weight: 900; line-height: 1.42; letter-spacing: .01em; }
+      .section-lead { margin: 0 0 var(--space-5); color: var(--muted-foreground); font-size: 14px; line-height: 1.75; }
+      /* Experience layout contract: 4 / 8 / 12 / 16 / 24px; one spacing owner per layer. */
+      .experience-card {
+        --choice-inset: var(--space-4);
+        --choice-gap: var(--space-2);
+        --choice-line: #e7dba8;
+        --choice-surface: #fff8dc;
+        overflow: visible; border: 0; border-radius: 0; background: transparent; box-shadow: none;
+      }
+      .experience-body { display: grid; gap: var(--space-4); padding: 0; min-width: 0; }
+      .voice-intro { display: grid; gap: var(--space-2); padding: 0; text-align: left; }
+      .voice-intro h3 { margin: 0; color: var(--foreground); font-family: var(--font-display); font-size: 22px; font-weight: 800; line-height: 1.5; }
+      .voice-intro p { margin: 0; color: var(--muted-foreground); font-size: 13px; line-height: 1.75; }
+      .phrase {
+        display: grid; gap: var(--space-4); min-width: 0; margin: 0; padding: var(--choice-inset);
+        border: 1px solid var(--choice-line); border-radius: var(--radius-lg);
+        color: var(--foreground); background: var(--choice-surface); box-shadow: none;
+      }
+      #try-choices { scroll-margin-top: 80px; }
+      #try-choices:focus { outline: none; }
+      #try-choices:focus-visible { outline: 2px solid var(--primary); outline-offset: var(--space-1); }
+      .phrase-heading { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: 28px; margin: 0; padding: 0; }
+      .phrase-label { min-width: 0; color: var(--foreground); font-family: var(--font-display); font-size: 15px; font-weight: 800; line-height: 1.5; }
+      .phrase-count { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; min-height: 28px; padding: var(--space-1) var(--space-2); border: 0; border-radius: var(--radius-pill); color: #786537; background: #f6eab9; font-size: 10px; font-weight: 700; line-height: 1.4; }
+      .phrase-chips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--choice-gap); min-width: 0; padding: 0; margin: 0; }
+      .phrase-chip {
+        display: grid; grid-template-rows: 32px 28px 24px; justify-items: center; align-items: center;
+        gap: var(--space-1); min-width: 0; min-height: 116px; margin: 0; padding: var(--space-3) var(--space-1);
+        border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--foreground); background: var(--card);
+        text-align: center; transition: border-color .15s, background .15s, transform .15s;
+      }
+      .phrase-chip img { display: block; width: 32px; height: 32px; object-fit: contain; border-radius: 50%; }
+      .phrase-chip span { display: contents; }
+      .phrase-chip strong { display: block; min-width: 0; max-width: 100%; margin: 0; color: var(--foreground); font-family: var(--font-display); font-size: 11px; font-weight: 800; line-height: 14px; letter-spacing: 0; white-space: normal; overflow-wrap: anywhere; }
+      .phrase-chip small { display: block; min-width: 0; max-width: 100%; margin: 0; color: var(--muted-foreground); font-size: 10px; font-weight: 500; line-height: 12px; letter-spacing: 0; white-space: normal; overflow-wrap: anywhere; }
+      .phrase-chip[aria-pressed="true"] { border-color: var(--primary); background: #edf8f3; box-shadow: inset 0 0 0 1px var(--primary); }
+      .phrase-chip:active { transform: scale(.97); }
+      .phrase-chip:disabled { cursor: wait; opacity: .7; }
+      .trust-inline { display: flex; align-items: flex-start; gap: var(--space-2); margin: 0; padding: 0 var(--choice-inset); color: var(--muted-foreground); font-size: 11px; line-height: 1.75; background: transparent; border-radius: 0; }
+      .trust-inline strong { color: var(--foreground); font-weight: 600; }
+      .trust-inline::before { content: "✓"; display: grid; place-items: center; flex: 0 0 20px; width: 20px; height: 20px; margin-top: 0; border-radius: 50%; color: var(--success); background: #eaf4e5; font-weight: 700; }
+      @media (max-width: 359px) {
+        .phrase-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .phrase-chip { grid-template-columns: 28px minmax(0, 1fr); grid-template-rows: 20px 28px; column-gap: var(--space-2); row-gap: var(--space-1); justify-items: start; min-height: 76px; padding: var(--space-3) var(--space-2); text-align: left; }
+        .phrase-chip img { grid-row: 1 / 3; width: 28px; height: 28px; }
+        .phrase-chip strong { font-size: 11px; }
+        .phrase-chip small { align-self: start; }
+        .phrase-label { font-size: 14px; }
+      }
+      .experience-head { display: none; }
+      .step { color: var(--muted-foreground); font-size: 10px; font-weight: 700; }
+      .voice-path { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: var(--space-2); margin: var(--space-2) 3px 0 0; padding: var(--space-3); border: 2px solid var(--foreground); border-radius: 13px; background: #fffdfa; box-shadow: 3px 3px 0 #eadcae; }
+      .voice-path-node { display: flex; min-width: 0; align-items: center; gap: var(--space-2); }
+      .voice-path-mark { display: grid; place-items: center; width: 28px; height: 28px; flex: 0 0 auto; border-radius: 10px; color: #c99142; background: #fff2cc; }
+      .voice-path-mark svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .voice-path-node:last-child .voice-path-mark { color: var(--success); background: #edfaef; font-size: 13px; font-weight: 800; }
+      .voice-path-copy { display: grid; min-width: 0; gap: 1px; }
+      .voice-path-copy small { color: var(--muted-foreground); font-size: 9px; font-weight: 500; line-height: 1.35; }
+      .voice-path-copy strong { overflow: hidden; color: var(--foreground); font-size: 10px; font-weight: 700; line-height: 1.4; letter-spacing: 0; text-overflow: ellipsis; white-space: nowrap; }
+      .voice-path-arrow { color: #c4b89f; font-size: 14px; }
+      .demo-listening { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-3); min-height: 112px; padding: var(--space-3) var(--space-4); border: 2px solid #8acbd5; border-radius: 13px; color: #666; background: #f4fbfc; transition: border-color .28s, background .28s; }
+      .demo-listening[hidden] { display: none; }
+      .demo-listening-copy { display: grid; min-width: 0; gap: 2px; }
+      .demo-listening-copy small { color: #62b3c2; font-size: 9px; font-weight: 700; }
+      .demo-listening-copy strong { font-size: 12px; font-weight: 600; line-height: 1.65; }
+      .demo-wave { display: flex; width: 37px; height: 28px; align-items: center; justify-content: center; gap: 3px; }
+      .demo-wave i { width: 3px; height: 9px; border-radius: 99px; background: #8bd0dd; }
+      .demo-wave i:nth-child(2), .demo-wave i:nth-child(6) { height: 17px; }
+      .demo-wave i:nth-child(3), .demo-wave i:nth-child(5) { height: 24px; }
+      .demo-wave i:nth-child(4) { height: 13px; }
+      .demo-listening.is-speaking { animation: transcript-arrive .28s ease-out both; }
+      .demo-listening.is-speaking .demo-wave i { animation: wave .34s ease-in-out infinite alternate both; }
+      .demo-listening.is-speaking .demo-wave i:nth-child(2), .demo-listening.is-speaking .demo-wave i:nth-child(6) { animation-delay: -.12s; }
+      .demo-listening.is-speaking .demo-wave i:nth-child(3), .demo-listening.is-speaking .demo-wave i:nth-child(5) { animation-delay: -.22s; }
+      .demo-listening.is-converting { border-color: #ecd9e3; background: #fff8fb; }
+      .demo-listening.is-converting .demo-wave i { background: #e383a8; animation: wave .46s ease-in-out infinite alternate both; }
+      .demo-listening.is-complete { border-color: #d9eedc; background: #f3fff4; }
+      .demo-listening.is-complete .demo-wave i { background: #91dea9; transform: scaleY(.55); }
+      .demo-route { display: grid; grid-column: 1 / -1; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 7px; padding-top: var(--space-2); border-top: 1px solid rgba(119,119,119,.1); }
+      .demo-route-step { display: flex; min-width: 0; align-items: center; gap: 5px; color: #aaa; font-size: 8px; font-weight: 700; transition: color .25s; }
+      .demo-route-step i { display: grid; place-items: center; width: 16px; height: 16px; flex: 0 0 auto; border-radius: 50%; color: #999; background: #eee; font-size: 8px; font-style: normal; transition: color .25s, background .25s; }
+      .demo-route-step b { overflow: hidden; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+      .demo-route-arrow { color: #bbb; font-size: 11px; }
+      .demo-listening.is-speaking .demo-route-voice, .demo-listening.is-converting .demo-route-voice, .demo-listening.is-complete .demo-route-voice { color: #62b3c2; }
+      .demo-listening.is-speaking .demo-route-voice i, .demo-listening.is-converting .demo-route-voice i, .demo-listening.is-complete .demo-route-voice i { color: #fff; background: #8bd0dd; }
+      .demo-listening.is-converting .demo-route-record, .demo-listening.is-complete .demo-route-record { color: #c96c95; }
+      .demo-listening.is-converting .demo-route-record i { color: #fff; background: #e383a8; }
+      .demo-listening.is-complete .demo-route-record { color: var(--success); }
+      .demo-listening.is-complete .demo-route-record i { color: #fff; background: #91dea9; }
+      .flow-arrow { display: grid; place-items: center; height: 18px; color: #bbb5aa; font-size: 16px; }
+      .record-result { display: grid; gap: var(--space-3); }
+      .record-result[hidden] { display: none; }
+      .result-label { margin: 0 0 -2px; color: var(--muted-foreground); font-size: 10px; font-weight: 600; }
+      .result-sentence { display: none; }
+      /* The result is deliberately a single, white event card: it mirrors the
+         app's timeline pattern without shrinking the whole app into the LP. */
+      .app-record-card { overflow: hidden; margin-right: 3px; border: 2px solid var(--foreground); border-radius: 13px; background: #fff; box-shadow: 4px 4px 0 #dcebdc; }
+      .record-card-header { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3) var(--space-4); border-bottom: 1px solid #f0ece6; }
+      .record-card-header strong { color: var(--success); font-size: 10px; font-weight: 700; letter-spacing: .02em; }
+      .record-card-date { display: block; color: var(--muted-foreground); font-size: 9px; }
+      .record-event { display: grid; grid-template-columns: 58px 16px minmax(0, 1fr); align-items: center; min-height: 78px; padding: var(--space-3) var(--space-4); }
+      .timeline-time { width: fit-content; padding: 3px 5px; border-radius: 6px; color: #6d257e; background: #fff3f8; font-size: 10px; font-weight: 700; line-height: 1.2; white-space: nowrap; }
+      .record-event-track { position: relative; display: grid; place-items: center; align-self: stretch; }
+      .record-event-track::after { display: none; }
+      .timeline-dot { position: relative; z-index: 1; width: 8px; height: 8px; border: 2px solid #fff; border-radius: 50%; background: #ebd833; box-shadow: 0 0 0 1px rgba(109,114,70,.22); }
+      .record-event-main { min-width: 0; }
+      .record-event-title { display: flex; align-items: center; gap: 6px; min-width: 0; }
+      .record-event-title strong { overflow: hidden; font-size: 13px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+      .record-icon { width: 25px; height: 25px; flex: 0 0 auto; object-fit: cover; border-radius: 8px; }
+      .record-check { display: inline-grid; place-items: center; width: 15px; height: 15px; margin-left: 2px; border-radius: 50%; color: #fff; background: var(--success); font-size: 9px; font-weight: 900; }
+      .record-event-value { display: block; margin-top: 2px; color: var(--muted-foreground); font-size: 11px; }
+      .timeline-arrow { display: none; }
+      .record-card-footer { display: flex; align-items: center; gap: var(--space-2); padding: 0 var(--space-4) var(--space-3); }
+      .record-complete-chip { width: fit-content; padding: 4px 8px; border-radius: 6px; color: var(--success); background: #eafaf3; font-size: 9px; font-weight: 800; }
+      .record-footer-hint { color: var(--muted-foreground); font-size: 9px; }
+      .privacy-reassurance { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 26px; color: var(--muted-foreground); font-size: 9px; font-weight: 600; }
+      .privacy-reassurance svg { width: 14px; height: 14px; fill: none; stroke: var(--success); stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .category-icon { overflow: hidden; }
+      .category-icon img { display: block; width: 100%; height: 100%; object-fit: contain; }
+      .reminder-alert { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4); border: 2px solid #acd4b0; border-radius: 13px; background: #f5fcf6; }
+      .reminder-alert[hidden], .reminder-caption[hidden] { display: none; }
+      .reminder-mark { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 auto; border-radius: 12px; color: var(--success); background: #fff; font-size: 20px; }
+      .reminder-mark svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .reminder-alert p { margin: 0 0 2px; color: var(--muted-foreground); font-size: 9px; }
+      .reminder-alert strong { display: block; font-size: 12px; font-weight: 600; line-height: 1.6; }
+      .reminder-alert p span { display: inline; color: inherit; font-size: inherit; }
+      .reminder-alert #reminder-time { display: block; margin-top: 1px; color: var(--muted-foreground); font-size: 10px; }
+      .reminder-caption { margin: 0; color: var(--muted-foreground); font-size: 10px; line-height: 1.6; text-align: center; }
+      .app-record-card { position: relative; }
+      .app-record-card::before, .app-record-card::after { display: none; }
+      .app-record-card::before { top: 15px; right: 24px; color: #e383a8; background: currentColor; box-shadow: -16px 7px 0 #f2d36b, 10px 17px 0 #8bd0dd; }
+      .app-record-card::after { bottom: 19px; left: 26px; color: #91dea9; background: currentColor; box-shadow: 13px 8px 0 #cda1dc, -7px 16px 0 #f08080; }
+      .record-result:not([hidden]) { animation: result-open .3s ease-out both; }
+      .record-result:not([hidden]) .flow-arrow { animation: arrow-drop .38s .04s cubic-bezier(.2,.8,.2,1) both; }
+      .record-result:not([hidden]) .result-label { animation: soft-fade .34s .12s ease-out both; }
+      .record-result:not([hidden]) .app-record-card { animation: record-reveal .52s .18s cubic-bezier(.18,.85,.32,1.16) both; }
+      .record-result:not([hidden]) .app-record-card::before { animation: spark-pop .56s .48s ease-out 1 both; }
+      .record-result:not([hidden]) .app-record-card::after { animation: spark-pop .56s .56s ease-out 1 both; }
+      .record-result:not([hidden]) .timeline-dot { animation: dot-pulse .48s .52s ease-out 2 both; }
+      .record-result:not([hidden]) .record-check { animation: check-pop .4s .6s cubic-bezier(.2,.9,.3,1.4) both; }
+      .record-result:not([hidden]) .privacy-reassurance { animation: reminder-reveal .38s .72s ease-out both; }
+      .record-result:not([hidden]) .reminder-alert { animation: reminder-reveal .48s .88s cubic-bezier(.2,.8,.2,1) both; }
+      .record-result:not([hidden]) .reminder-mark { animation: bell-arrive .58s 1.12s ease-out both; }
+      .record-result:not([hidden]) .reminder-caption { animation: soft-fade .38s 1.18s ease-out both; }
+      .record-result:not([hidden]) .complete-next { animation: soft-fade .38s 1.28s ease-out both; }
+      .complete-next { display: grid; gap: 0; padding-top: var(--space-1); }
+      .complete-next[hidden] { display: none; }
+      .complete-next p { margin: 0; color: var(--foreground); font-size: 11px; font-weight: 600; text-align: center; }
+      .demo-bridge, .cta-bridge { margin: var(--space-4) var(--space-1) 0; color: var(--muted-foreground); font-size: 10px; line-height: 1.8; text-align: center; }
+      .demo-bridge strong, .cta-bridge strong { color: #e383a8; font-weight: 700; }
+      .cta-bridge { margin: 0 0 var(--space-4); text-align: left; }
+
+      .gallery-section { padding: 72px 0; background: var(--background); }
+      .gallery-head { display: block; }
+      .gallery-section .section-kicker { background: #d9f3f7; }
+      .gallery-hint { display: block; width: fit-content; margin: calc(var(--space-3) * -1) 0 0 auto; padding: 4px 9px; border: 1px solid #cfc8be; border-radius: var(--radius-pill); color: var(--muted-foreground); background: #fff; font-size: 9px; font-weight: 700; text-align: right; }
+      .gallery { display: flex; gap: var(--space-3); overflow-x: auto; margin-top: var(--space-3); padding: 0 0 var(--space-4); overscroll-behavior-inline: contain; scroll-padding-inline: 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
+      .gallery { cursor: grab; }
+      .gallery.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+      .gallery::-webkit-scrollbar { display: none; }
+      .gallery-card { display: grid; flex: 0 0 calc(100% - 31px); min-height: 314px; align-content: start; scroll-snap-align: start; scroll-snap-stop: always; margin: 0 4px 5px 0; padding: 18px; border: 2px solid var(--foreground); border-radius: 17px; background: #eaf8fa; box-shadow: 5px 5px 0 #bfe2e7; }
+      .gallery-card:nth-child(2) { background: #fff0f5; box-shadow-color: #efbfd1; }
+      .gallery-card:nth-child(3) { background: #fff7d9; box-shadow-color: #ead98a; }
+      .gallery-card:nth-child(4) { background: #eef8ec; box-shadow-color: #c6dfc2; }
+      .gallery-step { display: inline-flex; width: fit-content; align-items: center; gap: 6px; margin-bottom: var(--space-3); padding: 4px 9px; border: 1.5px solid var(--foreground); border-radius: var(--radius-pill); color: var(--foreground); background: #fff; font-family: var(--font-display); font-size: 9px; font-weight: 800; letter-spacing: .06em; }
+      .gallery-step::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #49b8c9; }
+      .gallery-card:nth-child(2) .gallery-step::before { background: #e978a2; }
+      .gallery-card:nth-child(3) .gallery-step::before { background: #e2be2d; }
+      .gallery-card:nth-child(4) .gallery-step::before { background: #72ac70; }
+      .gallery-proof { height: 140px; overflow: hidden; padding: var(--space-3); border: 1px solid rgba(52,51,48,.24); border-radius: 12px; background: rgba(255,255,255,.96); box-shadow: none; }
+      .proof-topline { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-2); color: var(--muted-foreground); font-size: 9px; }
+      .proof-topline strong { color: var(--foreground); font-size: 11px; }
+      .timeline-preview { display: grid; gap: 6px; }
+      .timeline-entry { display: grid; grid-template-columns: 44px 26px 1fr auto; align-items: center; min-height: 28px; font-size: 10px; }
+      .timeline-entry time { color: var(--muted-foreground); font-size: 9px; }
+      .timeline-entry img, .category-proof img { width: 25px; height: 25px; border-radius: 9px; object-fit: cover; }
+      .timeline-entry strong { color: var(--foreground); font-size: 10px; }
+      .timeline-entry span:last-child { color: var(--muted-foreground); font-size: 9px; }
+      .stats-proof { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(90px, .7fr); align-items: stretch; gap: var(--space-3); }
+      .stats-chart { display: flex; height: 100%; align-items: end; justify-content: space-between; gap: 5px; padding: 18px 8px 8px; border-radius: 12px; background: #fff8fb; }
+      .stats-chart span { display: grid; height: 100%; flex: 1; align-items: end; gap: 4px; color: var(--muted-foreground); font-size: 7px; text-align: center; }
+      .stats-chart i { display: block; width: 100%; min-height: 14px; border-radius: 5px 5px 2px 2px; background: #e9a9c5; }
+      .stats-summary { display: grid; align-content: center; gap: var(--space-2); }
+      .stats-summary span { display: grid; gap: 1px; padding: 7px 8px; border-radius: 10px; background: #fff; }
+      .stats-summary small { color: var(--muted-foreground); font-size: 7px; }
+      .stats-summary strong { color: var(--foreground); font-size: 11px; }
+      .growth-proof { display: grid; grid-template-columns: 1.15fr .85fr; gap: var(--space-3); }
+      .growth-photo { display: grid; place-items: center; border-radius: 12px; color: #b28f49; background: linear-gradient(145deg, #fff0bd, #fff9e8); }
+      .growth-photo svg { width: 38px; height: 38px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.4; }
+      .growth-summary { display: grid; align-content: center; gap: var(--space-2); }
+      .growth-summary span { display: grid; gap: 1px; padding: 8px; border-radius: 10px; background: #fff; }
+      .growth-summary small { color: var(--muted-foreground); font-size: 7px; }
+      .growth-summary strong { color: var(--foreground); font-size: 11px; }
+      .category-proof { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); align-content: center; }
+      .category-proof span { display: grid; justify-items: center; gap: 3px; color: var(--muted-foreground); font-size: 8px; white-space: nowrap; }
+      .category-more { display: grid; place-items: center; width: 25px; height: 25px; border-radius: 9px; color: #9d874c; background: #fff2bd; font-size: 8px; font-weight: 800; letter-spacing: 0; }
+      .gallery-card h3 { margin: var(--space-4) 0 var(--space-1); color: var(--foreground); font-family: var(--font-display); font-size: 20px; font-weight: 800; line-height: 1.45; letter-spacing: .01em; }
+      .gallery-card > p { margin: 0; color: var(--muted-foreground); font-size: 13px; line-height: 1.7; letter-spacing: normal; }
+      .reveal-ready .section-kicker, .reveal-ready .section-title, .reveal-ready .section-lead, .reveal-ready .gallery-hint, .reveal-ready .closing-content { opacity: 0; transform: translateY(14px); }
+      .reveal-ready.is-visible .section-kicker { animation: section-rise .45s .04s ease-out both; }
+      .reveal-ready.is-visible .section-title { animation: section-rise .52s .12s ease-out both; }
+      .reveal-ready.is-visible .section-lead, .reveal-ready.is-visible .gallery-hint { animation: section-rise .48s .2s ease-out both; }
+      .gallery-card { opacity: 0; transform: translateX(20px) rotate(1deg); }
+      .gallery-section.is-visible .gallery-card { animation: gallery-card-in .55s cubic-bezier(.2,.8,.2,1) both; }
+      .gallery-section.is-visible .gallery-card:nth-child(1) { animation-delay: .28s; }
+      .gallery-section.is-visible .gallery-card:nth-child(2) { animation-delay: .36s; }
+      .gallery-section.is-visible .gallery-card:nth-child(3) { animation-delay: .44s; }
+      .gallery-section.is-visible .gallery-card:nth-child(4) { animation-delay: .52s; }
+
+      .closing { padding: 64px 0 0; color: var(--foreground); background: #fff0f5; }
+      .closing .section-kicker { color: var(--foreground); background: #ffcfe0; }
+      .closing h2 { margin: 0 0 var(--space-3); color: var(--foreground); font-family: var(--font-display); font-size: 30px; font-weight: 900; line-height: 1.45; letter-spacing: .01em; }
+      .closing p { margin: 0; color: var(--muted-foreground); font-size: 14px; line-height: 1.7; }
+      .closing .ui-button-primary { color: var(--primary-foreground); border-color: #1e7f8e; background: var(--primary); }
+      .closing .ui-button-primary:hover, .closing .ui-button-primary:focus-visible { background: #2399aa; }
+      .closing.reveal-ready .wrap { opacity: 0; transform: translateY(18px); }
+      .closing.reveal-ready.is-visible .wrap { animation: closing-rise .58s .1s ease-out both; }
+      footer { padding: var(--space-5) var(--space-4) var(--space-6); color: var(--muted-foreground); background: var(--background); font-size: 10px; line-height: 1.7; }
+      .cta-dock { margin-top: var(--space-5); }
+
+      .toast { position: fixed; right: 16px; bottom: 76px; left: 16px; z-index: 40; display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 8px 14px; border: 1px solid rgba(22,165,116,.2); border-radius: 12px; color: var(--success); background: rgba(234,250,243,.97); font-size: 11px; font-weight: 800; box-shadow: 0 8px 24px rgba(37,36,61,.12); }
+      .toast[hidden] { display: none; }
+
+      @keyframes hero-rise { from { opacity: 0; transform: translateY(13px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes brand-pop { from { opacity: 0; transform: scale(.6) rotate(-10deg); } 70% { opacity: 1; transform: scale(1.1) rotate(3deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+      @keyframes underline-draw { from { transform: scaleX(0); opacity: 0; } to { transform: scaleX(1); opacity: .7; } }
+      @keyframes arrow-nudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+      @keyframes soft-orbit { 0% { opacity: 0; transform: translate(12px,-8px) scale(.88); } 35% { opacity: .72; } 100% { opacity: .46; transform: translate(-10px,12px) scale(1.08); } }
+      @keyframes soft-orbit-reverse { 0% { opacity: 0; transform: translate(-8px,8px) scale(.9); } 35% { opacity: .66; } 100% { opacity: .42; transform: translate(12px,-10px) scale(1.06); } }
+      @keyframes section-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes card-arrive { from { opacity: 0; transform: translateY(22px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      @keyframes soft-shimmer { from { transform: translateX(-120%); } to { transform: translateX(120%); } }
+      @keyframes result-open { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes arrow-drop { 0% { opacity: 0; transform: translateY(-7px); } 70% { opacity: 1; transform: translateY(2px); } 100% { opacity: 1; transform: translateY(0); } }
+      @keyframes soft-fade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes record-reveal { from { opacity: 0; transform: translateY(16px) scale(.97); } 70% { opacity: 1; transform: translateY(-2px) scale(1.006); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      @keyframes spark-pop { 0% { opacity: 0; transform: scale(.2) rotate(-12deg); } 45% { opacity: 1; transform: scale(1.1) rotate(4deg); } 100% { opacity: 0; transform: scale(.8) translateY(-8px); } }
+      @keyframes dot-pulse { 0% { transform: scale(.6); } 55% { transform: scale(1.5); } 100% { transform: scale(1); } }
+      @keyframes check-pop { from { opacity: 0; transform: scale(.2) rotate(-25deg); } 70% { opacity: 1; transform: scale(1.2) rotate(4deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+      @keyframes reminder-reveal { from { opacity: 0; transform: translateY(13px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes bell-arrive { 0% { opacity: 0; transform: scale(.7) rotate(-12deg); } 45% { opacity: 1; transform: scale(1.05) rotate(9deg); } 70% { transform: scale(1) rotate(-5deg); } 100% { opacity: 1; transform: scale(1) rotate(0); } }
+      @keyframes gallery-card-in { from { opacity: 0; transform: translateX(20px) rotate(1deg); } to { opacity: 1; transform: translateX(0) rotate(0); } }
+      @keyframes closing-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes transcript-arrive { from { opacity: 0; transform: translateY(7px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      @keyframes cta-nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+      @keyframes wave { from { transform: scaleY(.55); opacity: .55; } to { transform: scaleY(1); opacity: 1; } }
+      @media (max-width: 390px) {
+        .wrap { width: calc(100% - (var(--space-4) * 2)); }
+        .hero { padding: 32px 0 var(--space-6); }
+        .hero h1 { margin-bottom: var(--space-4); font-size: clamp(34px, 10.2vw, 40px); line-height: 1.25; }
+        .hero-copy { margin-bottom: var(--space-5); font-size: 14px; line-height: 1.8; }
+      }
+      @media (max-width: 390px) and (max-height: 700px) {
+        .hero { padding-top: var(--space-5); }
+        .hero-kicker { margin-bottom: var(--space-2); }
+        .hero h1 { font-size: 35px; }
+        .hero-note { font-size: 9px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+        .hero-wrap > *, .reveal-ready .section-kicker, .reveal-ready .section-title, .reveal-ready .section-lead, .reveal-ready .gallery-hint, .reveal-ready .closing-content, .closing.reveal-ready .wrap, .gallery-card { opacity: 1 !important; transform: none !important; }
+      }
+
+      /* Actual app screenshots, scaled without cropping their UI. */
+      .gallery-section .section-title { font-size: 29px; line-height: 1.5; letter-spacing: -.015em; }
+      .gallery-section .section-lead { font-size: 14px; line-height: 1.85; }
+      .gallery-hint { min-height: 40px; padding: 8px 14px; font-size: 11px; }
+      .gallery { gap: 12px; padding-top: 3px; }
+      .gallery-card.gallery-feature { min-height: 490px; padding: 20px 18px 0; border: 1px solid #e5dfd5; border-radius: 24px; box-shadow: 0 5px 0 #eee8dc; background: #fffaf0; overflow: hidden; opacity: 1; transform: none; }
+      .gallery-card.gallery-feature:nth-child(2) { background: #fff4f6; }
+      .gallery-card.gallery-feature:nth-child(3) { background: #f1f7f1; }
+      .gallery-card.gallery-feature:nth-child(4) { background: #eff7fa; }
+      .gallery-feature-heading { display: flex; align-items: center; justify-content: space-between; }
+      .gallery-feature .gallery-step { margin: 0; border: 0; padding: 5px 10px; font-size: 10px; letter-spacing: .02em; }
+      .gallery-feature-number { color: #a59b8b; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+      .gallery-feature h3 { margin: 16px 0 8px; font-size: clamp(19px, 4.8vw, 23px); line-height: 1.5; letter-spacing: -.02em; }
+      .gallery-feature > p { min-height: 72px; font-size: 13px; line-height: 1.85; }
+      .gallery-screens { display: flex; justify-content: center; align-items: flex-start; gap: 8px; height: 306px; margin: 18px -6px 0; padding: 12px 0 20px; }
+      .gallery-screens img { display: block; width: calc(50% - 4px); max-height: 270px; object-fit: contain; object-position: top; height: auto; border-radius: 18px; mix-blend-mode: normal; user-select: none; }
+      .gallery-screens img:nth-child(2) { margin-top: 20px; }
+      .gallery-screens-single img { width: auto; max-width: 100%; height: 274px; max-height: 274px; }
+      @media (max-width: 360px) {
+        .gallery-card.gallery-feature { padding: 18px 14px 0; }
+        .gallery-feature > p { min-height: 96px; }
+        .gallery-screens { height: 268px; }
+        .gallery-screens img { max-height: 240px; }
+      }
+
+      /* September refinement: clearer hierarchy and inspectable app screens. */
+      #top, #experience, #gallery { scroll-margin-top: 76px; }
+      .hero { background: linear-gradient(165deg, #fffefa 45%, #fff8e9 100%); }
+      .hero-kicker { border: 0; border-radius: 999px; padding: 8px 12px; box-shadow: none; background: #fff0bf; }
+      .hero-features-link { display: flex; justify-content: center; align-items: center; gap: 10px; min-height: 44px; margin-top: 12px; font-size: 12px; font-weight: 700; color: #716452; text-decoration: underline; text-underline-offset: 4px; }
+      .hero-peek { margin-top: 20px; border: 1px solid #deded3; border-radius: 22px; box-shadow: 0 6px 0 #eeeadd; }
+      .gallery-shortcuts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 16px; padding: 4px; border: 1px solid #e8e2d9; border-radius: 16px; background: #f5f2eb; }
+      .gallery-shortcuts button { min-height: 44px; padding: 5px 2px; border: 0; border-radius: 11px; background: transparent; color: #716b60; font-size: 11px; font-weight: 700; white-space: nowrap; }
+      .gallery-shortcuts button[aria-pressed="true"] { color: #343330; background: #fff; box-shadow: 0 2px 5px #44331a12; }
+      .gallery-card.gallery-feature { border-radius: 22px; }
+      .gallery-screens img { mix-blend-mode: normal; }
+      .gallery-screens { height: 294px; padding-bottom: 8px; }
+      .gallery-enlarge { justify-self: stretch; min-height: 44px; margin: 0 -18px; border: 0; border-top: 1px solid #34333012; background: #ffffff80; color: #686052; font-size: 11px; font-weight: 700; }
+      .gallery-enlarge:hover { background: #fff; color: #343330; }
+      .screen-dialog { width: min(94vw, 680px); max-height: 90dvh; padding: 0; border: 1px solid #e5dfd5; border-radius: 24px; background: #fffefa; color: var(--foreground); box-shadow: 0 24px 80px #0003; }
+      .screen-dialog::backdrop { background: #28241ecc; backdrop-filter: blur(5px); }
+      .screen-dialog-bar { position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: #fffefa; border-bottom: 1px solid #e5dfd5; }
+      .screen-dialog-bar strong { font-size: 14px; }
+      .screen-dialog-close { width: 44px; height: 44px; border: 0; border-radius: 50%; background: #f1ece4; font-size: 28px; color: #343330; }
+      .screen-dialog-images { display: grid; justify-items: center; gap: 24px; padding: 20px; }
+      .screen-dialog-images img { display: block; width: min(100%, 420px); height: auto; border-radius: 20px; }
+      body.screen-dialog-open { overflow: hidden; }
+      .closing { background: linear-gradient(150deg, #fff3d8, #fff5f6); }
+      .closing .section-kicker { margin-bottom: 24px; border: 0; border-radius: 999px; padding: 7px 12px; background: #fff; box-shadow: none; }
+      .closing p:not(.section-kicker) { line-height: 1.9; }
+      @media (max-width: 360px) { .gallery-screens { height: 254px; } .gallery-enlarge { margin-inline: -14px; } }
+
+      /* Supplied mockups already include the handset frame. Preserve it intact. */
+      .gallery-screens { align-items: center; gap: 6px; height: 306px; margin: 18px 0 14px; padding: 12px 6px; border: 1px solid #eeeae3; border-radius: 18px; background: #fff; }
+      .gallery-screens img { flex: 0 1 auto; display: block; width: calc(50% - 3px); height: auto; max-height: 280px; object-fit: contain; object-position: center; border-radius: 0; mix-blend-mode: normal; }
+      .gallery-screens img:nth-child(2) { margin-top: 0; }
+      .gallery-screens-single img { width: auto; max-width: 100%; height: 280px; max-height: 280px; }
+      .screen-dialog-images { background: #fff; }
+      .screen-dialog-images img { border-radius: 0; }
+      @media (max-width: 360px) {
+        .gallery-screens { height: 276px; padding-inline: 4px; }
+        .gallery-screens img { max-height: 250px; }
+        .gallery-screens-single img { height: 250px; }
+      }
+
+      /* Mobile conversion pass: yellow for warmth, mint for actions. */
+      .hero h1 em { color: #348b83; -webkit-text-stroke: 0; }
+      .hero h1 em::after { height: 11px; bottom: 1px; background: #ffe078; }
+      .hero-action .ui-button, .final-store-cta .ui-button, .complete-next .ui-button { border: 1px solid #278b8d; border-radius: 18px; box-shadow: 0 3px 0 #d0e8e3; }
+      .section-kicker { border: 0; border-radius: 999px; padding: 8px 12px; box-shadow: none; letter-spacing: .04em; }
+      .experience-section { background: #f6faf5; }
+      .voice-path { display: none; }
+      .complete-next { gap: 12px; padding-top: 16px; }
+      .complete-next .ui-button { min-height: 50px; font-size: 14px; }
+      .gallery-hint { display: none; }
+      .gallery-feature > p { color: #68645a; }
+      .gallery-enlarge { background: transparent; color: #6c726a; text-decoration: underline; text-underline-offset: 4px; }
+      .screen-dialog { position: fixed; inset: auto 0 0; width: min(100%, 480px); max-width: 100%; max-height: 92dvh; margin: 0 auto; border: 0; border-radius: 26px 26px 0 0; overflow: hidden; background: #fffefa; }
+      .screen-dialog-bar { position: relative; padding: 16px 16px 10px; border: 0; gap: 8px; }
+      .screen-dialog-bar::before { content: ""; position: absolute; top: 7px; left: calc(50% - 18px); width: 36px; height: 4px; border-radius: 9px; background: #ded9ce; }
+      .screen-dialog-bar strong { font-size: 14px; line-height: 1.5; }
+      .screen-dialog-close { width: 44px; height: 44px; flex: 0 0 auto; font-size: 25px; }
+      .screen-dialog-images { display: flex; gap: 0; height: min(61dvh, 530px); padding: 8px 0; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; background: #fff; }
+      .screen-dialog-images img { flex: 0 0 100%; width: 100%; min-width: 100%; height: 100%; object-fit: contain; scroll-snap-align: start; border-radius: 0; }
+      .screen-dialog-footer { display: grid; gap: 10px; padding: 10px 18px max(14px, env(safe-area-inset-bottom)); background: #fffefa; text-align: center; }
+      .screen-dialog-count { color: #777365; font-size: 12px; }
+      .screen-dialog-return { width: 100%; min-height: 48px; border: 1px solid #dcded2; border-radius: 16px; color: #3e554d; background: #f0f5eb; font-size: 14px; font-weight: 700; }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+      /* Funnel: try a record → discover features → visit App Store at the end. */
+      .final-store-cta { width: min(calc(100% - 32px), 414px); margin: 0 auto; padding: 0 0 var(--space-5); }
+      .final-store-cta .ui-button { display: flex; width: 100%; min-height: 56px; align-items: center; justify-content: center; padding: 12px 16px; font-size: 14px; text-align: center; }
+      .experience-next-link { width: 100%; min-height: 48px; border: 1px solid var(--border); border-radius: var(--radius-md); color: #3e6d62; background: #f1f7ee; box-shadow: none; font-size: 13px; text-align: center; }
+      .complete-next .experience-next-link { border-color: var(--border); box-shadow: none; }
+
+      /* Feature cards: reframe the supplied store artwork for the card ratio. */
+      .gallery-card.gallery-feature {
+        grid-template-rows: auto 72px 84px minmax(0, 1fr) 44px;
+        height: 570px;
+        min-height: 570px;
+      }
+      .gallery-feature h3 { align-self: start; margin: 0; padding-top: 14px; }
+      .gallery-feature > p { min-height: 0; margin: 0; }
+      .gallery-feature .gallery-screens {
+        display: grid;
+        place-items: center;
+        align-self: stretch;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        margin: 12px 0;
+        padding: 0;
+        overflow: hidden;
+        border: 1px solid #e6e0d6;
+        border-radius: 18px;
+        background: #fffbed;
+        box-shadow: inset 0 0 0 1px #ffffff80;
+      }
+      .gallery-feature .gallery-screens-single img {
+        display: block;
+        width: 92%;
+        max-width: 92%;
+        height: 92%;
+        max-height: 92%;
+        object-fit: contain;
+        object-position: center;
+      }
+      .gallery-feature .gallery-screens-ready { position: relative; border-color: transparent; background: transparent; box-shadow: none; }
+      .gallery-feature .gallery-screens-ready img { position: absolute; inset: 0; width: 100%; max-width: 100%; height: 100%; max-height: 100%; object-fit: contain; }
+      .gallery-feature .gallery-screens-pair { position: relative; isolation: isolate; background: linear-gradient(145deg, #fffdf2, #fff8d9); }
+      .gallery-feature .gallery-screens-pair img {
+        position: absolute;
+        width: auto;
+        height: 92%;
+        max-height: 92%;
+        object-fit: contain;
+        filter: drop-shadow(0 7px 8px #5347241b);
+      }
+      .gallery-feature .gallery-screens-pair img:first-child { z-index: 2; left: 12%; bottom: 2%; transform: rotate(-2deg); }
+      .gallery-feature .gallery-screens-pair img:nth-child(2) { z-index: 1; right: 10%; top: 2%; transform: rotate(2deg); }
+      .gallery-feature .gallery-screens-siblings img:first-child { left: 9%; bottom: 3%; height: 89%; }
+      .gallery-feature .gallery-screens-siblings img:nth-child(2) { right: 7%; top: 3%; height: 91%; }
+      .gallery-feature .gallery-enlarge {
+        align-self: end;
+        margin: 0 -18px;
+        border-top: 1px solid #34333012;
+        text-decoration: none;
+      }
+      @media (max-width: 360px) {
+        .gallery-card.gallery-feature { grid-template-rows: auto 72px 92px minmax(0, 1fr) 44px; height: 560px; min-height: 560px; }
+        .gallery-feature .gallery-enlarge { margin-inline: -14px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <a class="brand" href="#top"><img class="brand-logo" src="assets/brand/bi-color_JPN-hira.jpg" width="1508" height="351" alt="すくすくぱしゃ" fetchpriority="high" /><span class="brand-local"><span class="brand-mark" aria-hidden="true" data-brand-mark>す</span><span data-i18n="brand">すくすくぱしゃ</span></span></a>
+        <div class="language-switch" role="group" aria-label="Language"><button type="button" data-lang-option="ja" aria-pressed="true">JP</button><button type="button" data-lang-option="ko" aria-pressed="false">KR</button></div>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="wrap hero-wrap">
+            <p class="hero-kicker" data-i18n="hero_kicker">育児の記録を、もっと軽く。</p>
+            <h1 data-i18n-html="hero_title">声だけで、<br /><em>記録はおしまい。</em></h1>
+            <p class="hero-copy" data-i18n-html="hero_copy">授乳のたび、片手でメモは大変。<br />話すだけなら、赤ちゃんを抱いたままでも残せます。</p>
+            <div class="hero-action">
+              <button class="ui-button ui-button-primary ui-button-block" type="button" data-start-experience><span data-i18n="experience_cta">声で記録してみる</span> <span aria-hidden="true">→</span></button>
+              <p class="hero-note" data-i18n="hero_note">録音なし。好きな例を選ぶだけ。</p>
+            </div>
+            <a class="hero-features-link" href="#gallery"><span data-i18n="explore_features">写真・スタンプの機能も見る</span><span aria-hidden="true">↓</span></a>
+            <div class="hero-peek" aria-hidden="true">
+              <div class="hero-peek-top"><strong data-i18n="brand">すくすくぱしゃ</strong><span data-i18n="hero_preview_label">音声入力の例</span></div>
+              <div class="hero-voice-row">
+                <span class="hero-mini-wave"><i></i><i></i><i></i><i></i><i></i></span>
+                <span class="hero-voice-copy"><small data-i18n="hero_voice_caption">アプリでこう話すと</small><strong data-i18n="hero_voice_phrase">「3時にミルク100ml」</strong></span>
+                <span class="hero-auto-badge" data-i18n="hero_auto_badge">自動</span>
+              </div>
+              <div class="hero-result-row"><strong data-i18n="hero_recorded_result">ミルク 100mlを記録</strong><span data-i18n="hero_preview_next">次もお知らせ</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="experience-section" id="experience">
+          <div class="wrap">
+            <p class="section-kicker" data-i18n="experience_kicker">01 · まず一回、体験</p>
+            <h2 class="section-title" data-i18n-html="experience_title">こう言ってみて。<br />あとは、こちらで。</h2>
+            <p class="section-lead" data-i18n="experience_lead">実際のアプリと同じように、声を記録に変えてみます。</p>
+            <div class="experience-card ui-card" id="experience-card">
+              <div class="experience-head"><span class="step" data-i18n="demo_label">音声記録デモ</span><span class="ui-badge ui-badge-live">LIVE DEMO</span></div>
+              <div class="experience-body">
+                <div class="voice-intro">
+                  <h3 data-i18n-html="voice_title">アプリなら、<br />こう話すだけ。</h3>
+                  <p data-i18n="voice_description">下の例をひとつ選ぶと、声が記録になる流れが自動で始まります。</p>
+                  <div class="voice-path" aria-hidden="true">
+                    <span class="voice-path-node"><i class="voice-path-mark"><svg viewBox="0 0 24 24"><path d="M5 5h14v10H9l-4 4V5Z"></path><path d="M9 10h.01M12 10h.01M15 10h.01"></path></svg></i><span class="voice-path-copy"><small data-i18n="voice_path_app">アプリで</small><strong data-i18n="voice_path_say">「3時に100ml」と話す</strong></span></span>
+                    <span class="voice-path-arrow">→</span>
+                    <span class="voice-path-node"><i class="voice-path-mark">✓</i><span class="voice-path-copy"><small data-i18n="voice_path_automatic">手入力なしで</small><strong data-i18n="voice_path_record">自動で記録</strong></span></span>
+                  </div>
+                </div>
+                <div class="phrase" id="try-choices" tabindex="-1" aria-labelledby="try-choices-label">
+                  <div class="phrase-heading"><span class="phrase-label" id="try-choices-label" data-i18n="phrase_label">試したい記録を選んでください</span><span class="phrase-count" data-i18n="phrase_count">16種類</span></div>
+                  <div class="phrase-chips" id="phrase-chips" role="group">
+                    <button class="phrase-chip" type="button" data-preset="milk" aria-pressed="false"><img src="assets/feeding-ui/icons/formula.jpg" alt="" /><span><strong data-i18n="chip_milk">ミルク</strong><small data-i18n="chip_milk_phrase">3時に100ml</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="feeding" aria-pressed="false"><img src="assets/feeding-ui/icons/mothers-milk.jpg" alt="" /><span><strong data-i18n="chip_feeding">母乳</strong><small data-i18n="chip_feeding_phrase">14時に授乳</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="stored_milk" aria-pressed="false"><img src="assets/feeding-ui/icons/stored-milk.jpg" alt="" /><span><strong data-i18n="chip_stored_milk">保存母乳</strong><small data-i18n="chip_stored_milk_phrase">80ml飲んだ</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="pumping" aria-pressed="false"><img src="assets/feeding-ui/icons/pumping.jpg" alt="" /><span><strong data-i18n="chip_pumping">搾乳</strong><small data-i18n="chip_pumping_phrase">いま搾乳</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="sleep" aria-pressed="false"><img src="assets/feeding-ui/icons/sleep.jpg" alt="" /><span><strong data-i18n="chip_sleep">睡眠</strong><small data-i18n="chip_sleep_phrase">19:35に寝た</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="food" aria-pressed="false"><img src="assets/feeding-ui/icons/baby-food.jpg" alt="" /><span><strong data-i18n="chip_food">離乳食</strong><small data-i18n="chip_food_phrase">おかゆを食べた</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="snack" aria-pressed="false"><img src="assets/feeding-ui/icons/snack.jpg" alt="" /><span><strong data-i18n="chip_snack">おやつ</strong><small data-i18n="chip_snack_phrase">15時におやつ</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="poop" aria-pressed="false"><img src="assets/feeding-ui/icons/nappy.jpg" alt="" /><span><strong data-i18n="chip_poop">おむつ</strong><small data-i18n="chip_poop_phrase">14時にうんち</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="bath" aria-pressed="false"><img src="assets/feeding-ui/icons/bath.jpg" alt="" /><span><strong data-i18n="chip_bath">お風呂</strong><small data-i18n="chip_bath_phrase">20時にお風呂</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="temperature" aria-pressed="false"><img src="assets/feeding-ui/icons/temperature.jpg" alt="" /><span><strong data-i18n="chip_temperature">体温</strong><small data-i18n="chip_temperature_phrase">36.8度</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="medicine" aria-pressed="false"><img src="assets/feeding-ui/icons/medicine.jpg" alt="" /><span><strong data-i18n="chip_medicine">お薬</strong><small data-i18n="chip_medicine_phrase">21時にお薬</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="hospital" aria-pressed="false"><img src="assets/feeding-ui/icons/hospital.jpg" alt="" /><span><strong data-i18n="chip_hospital">通院</strong><small data-i18n="chip_hospital_phrase">小児科へ</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="play" aria-pressed="false"><img src="assets/feeding-ui/icons/play.jpg" alt="" /><span><strong data-i18n="chip_play">遊び</strong><small data-i18n="chip_play_phrase">うつぶせ遊び</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="tummy" aria-pressed="false"><img src="assets/feeding-ui/icons/tummy-time.jpg" alt="" /><span><strong data-i18n="chip_tummy">タミータイム</strong><small data-i18n="chip_tummy_phrase">10分した</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="growth" aria-pressed="false"><img src="assets/feeding-ui/icons/growth.jpg" alt="" /><span><strong data-i18n="chip_growth">成長</strong><small data-i18n="chip_growth_phrase">体重6.2kg</small></span></button>
+                    <button class="phrase-chip" type="button" data-preset="memo" aria-pressed="false"><img src="assets/feeding-ui/icons/memo.jpg" alt="" /><span><strong data-i18n="chip_memo">メモ</strong><small data-i18n="chip_memo_phrase">よく笑った</small></span></button>
+                  </div>
+                </div>
+                <div class="trust-inline"><span data-i18n-html="trust_copy"><strong>この体験では録音も送信もしません。</strong> 例文で音声入力の流れを再現します。</span></div>
+                <div class="demo-listening" id="demo-listening" role="status" aria-live="polite" hidden>
+                  <span class="demo-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                  <span class="demo-listening-copy"><small id="demo-status" data-i18n="voice_demo_speaking">アプリで話した場面を再現しています</small><strong id="demo-transcript">「午後3時にミルクを100ml飲んだ」</strong></span>
+                  <span class="demo-route" aria-hidden="true"><span class="demo-route-step demo-route-voice"><i>1</i><b data-i18n="voice_route_say">声で話す</b></span><span class="demo-route-arrow">→</span><span class="demo-route-step demo-route-record"><i>2</i><b data-i18n="voice_route_record">自動で記録</b></span></span>
+                </div>
+                <div class="record-result" id="record-result" hidden>
+                  <div class="flow-arrow" aria-hidden="true">↓</div>
+                  <p class="result-label" data-i18n="heard_label">話した内容が、こう記録されました</p>
+                  <p class="result-sentence" id="result-sentence">3時に <em>ミルク100ml</em>。今日の記録に追加しました。</p>
+                  <div class="app-record-card" id="app-record-card">
+                    <div class="record-card-header"><strong data-i18n="today_record">今日の記録</strong><span class="record-card-date" data-i18n="sample_date">9月2日</span></div>
+                    <div class="record-event">
+                      <span class="timeline-time" id="record-time">03:00 午前</span>
+                      <span class="record-event-track"><span class="timeline-dot" aria-hidden="true"></span></span>
+                      <span class="record-event-main"><span class="record-event-title"><img class="record-icon" id="record-icon" src="assets/feeding-ui/icons/formula.jpg" alt="" /><strong id="record-category">ミルク</strong><span class="record-check" aria-hidden="true">✓</span></span><span class="record-event-value" id="record-value">100ml</span></span>
+                      <span class="timeline-arrow" aria-hidden="true">›</span>
+                    </div>
+                    <div class="record-card-footer"><span class="record-complete-chip" data-i18n="record_complete">記録完了</span><span class="record-footer-hint" data-i18n="record_added">今日の記録に追加しました</span></div>
+                  </div>
+                  <div class="privacy-reassurance" id="privacy-reassurance"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.9 8.1 7 10 4.1-1.9 7-5.4 7-10V6l-7-3Z"></path><path d="m9.5 12 1.7 1.7 3.6-4"></path></svg><span data-i18n="privacy_reassurance">録音も送信もしていません</span></div>
+                  <div class="reminder-alert" id="reminder-alert"><div class="reminder-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg></div><div><p><span data-i18n="brand">すくすくぱしゃ</span><span data-i18n="notification_from">から</span></p><strong id="reminder-title">次の授乳は18:00ごろですよ</strong><span id="reminder-time">時間になったら、そっとお知らせ</span></div></div>
+                  <p class="reminder-caption" id="reminder-caption" data-i18n="reminder_caption">記録するだけ。次のタイミングは、アプリがそっとお知らせ。</p>
+                  <div class="complete-next" id="complete-next" hidden><p data-i18n="complete_message">他の記録も、続けて試せます。</p><a class="ui-button experience-next-link" href="#gallery" data-i18n="explore_after_demo">ほかの便利な機能も見る ↓</a></div>
+                </div>
+              </div>
+            </div>
+            <p class="demo-bridge" data-i18n-html="demo_bridge">これは体験用の例です。<br /><strong>アプリでは、あなたの声でそのまま記録できます。</strong></p>
+          </div>
+        </section>
+
+        <section class="gallery-section" id="gallery">
+          <div class="wrap">
+            <p class="section-kicker" data-i18n="gallery_kicker">02 · ほかにも</p>
+            <div class="gallery-head"><h2 class="section-title" data-i18n-html="gallery_title">思い出も、家族の時間も。<br />このひとつに。</h2></div>
+            <p class="section-lead" data-i18n="gallery_lead">写真整理から家族共有、スタンプ作りまで。毎日にうれしい機能がそろっています。</p>
+            <button type="button" class="gallery-hint" data-i18n="gallery_hint" aria-controls="gallery-scroller">4つの機能を見る →</button>
+            <div class="gallery-shortcuts" role="group" aria-label="Features"><button type="button" data-gallery-shortcut="0" aria-controls="gallery-scroller" aria-pressed="true" data-i18n="nav_calendar">カレンダー</button><button type="button" data-gallery-shortcut="1" aria-controls="gallery-scroller" aria-pressed="false" data-i18n="nav_family">家族共有</button><button type="button" data-gallery-shortcut="2" aria-controls="gallery-scroller" aria-pressed="false" data-i18n="nav_stickers">スタンプ</button><button type="button" data-gallery-shortcut="3" aria-controls="gallery-scroller" aria-pressed="false" data-i18n="nav_siblings">きょうだい</button></div>
+            <div class="gallery" id="gallery-scroller" role="region" aria-label="記録機能ギャラリー" tabindex="0">
+              <article class="gallery-card gallery-feature gallery-feature-photos">
+                <div class="gallery-feature-heading"><span class="gallery-step" data-i18n="gallery_calendar_tag">写真をすっきり</span><span class="gallery-feature-number" aria-hidden="true">01</span></div>
+                <h3 data-i18n="gallery_calendar_title">日付ごと・月ごとに、自動整理。</h3>
+                <p data-i18n="gallery_calendar_copy">写真をアップロードするだけで、日付ごと・月ごとに自動で整理。お子さまの成長を、いつでも振り返れます。</p>
+                <div class="gallery-screens gallery-screens-pair"><img src="assets/gallery/svg-source/mockup-b.svg" alt="写真を日付別に整理するカレンダー画面" data-i18n-alt="gallery_calendar_alt" loading="lazy" decoding="async" draggable="false" /><img src="assets/gallery/svg-source/mockup-a.svg" alt="写真を月別に振り返るアルバム画面" data-i18n-alt="gallery_calendar_month_alt" loading="lazy" decoding="async" draggable="false" /></div>
+                <button type="button" class="gallery-enlarge" data-enlarge-gallery data-i18n="enlarge_screen">アプリ画面を見る</button>
+              </article>
+              <article class="gallery-card gallery-feature gallery-feature-family">
+                <div class="gallery-feature-heading"><span class="gallery-step" data-i18n="gallery_family_tag">家族といっしょに</span><span class="gallery-feature-number" aria-hidden="true">02</span></div>
+                <h3 data-i18n="gallery_family_title">離れていても、成長を一緒に。</h3>
+                <p data-i18n="gallery_family_copy">家族をアルバムに招待して、写真やコメントを共有。毎日の「かわいい」が会話になります。</p>
+                <div class="gallery-screens gallery-screens-single gallery-screens-ready"><img src="assets/gallery/family-invite-card.svg" alt="離れて暮らす家族と写真やコメントを共有する画面" data-i18n-alt="gallery_family_alt" loading="lazy" decoding="async" draggable="false" /></div>
+                <button type="button" class="gallery-enlarge" data-enlarge-gallery data-i18n="enlarge_screen">アプリ画面を見る</button>
+              </article>
+              <article class="gallery-card gallery-feature gallery-feature-stickers">
+                <div class="gallery-feature-heading"><span class="gallery-step" data-i18n="gallery_stickers_tag">オリジナルスタンプ</span><span class="gallery-feature-number" aria-hidden="true">03</span></div>
+                <h3 data-i18n="gallery_stickers_title">この笑顔が、家族のスタンプに。</h3>
+                <p data-i18n="gallery_stickers_copy">アップした写真から、世界にひとつのスタンプを作成。家族の会話でも楽しめます。</p>
+                <div class="gallery-screens gallery-screens-single gallery-screens-ready"><img src="assets/gallery/ssukticon-card.svg" alt="子どもの写真からオリジナルスタンプを作る画面" data-i18n-alt="gallery_stickers_alt" loading="lazy" decoding="async" draggable="false" /></div>
+                <button type="button" class="gallery-enlarge" data-enlarge-gallery data-i18n="enlarge_screen">アプリ画面を見る</button>
+              </article>
+              <article class="gallery-card gallery-feature gallery-feature-siblings">
+                <div class="gallery-feature-heading"><span class="gallery-step" data-i18n="gallery_siblings_tag">きょうだい別アルバム</span><span class="gallery-feature-number" aria-hidden="true">04</span></div>
+                <h3 data-i18n="gallery_siblings_title">一人ひとりの成長を、きれいに。</h3>
+                <p data-i18n="gallery_siblings_copy">写真が混ざらないよう、兄弟姉妹ごとにアルバムを整理。それぞれの成長を丁寧に残せます。</p>
+                <div class="gallery-screens gallery-screens-single gallery-screens-ready"><img src="assets/gallery/siblings-card.svg" alt="兄弟姉妹ごとに写真を分けて整理するアルバム画面" data-i18n-alt="gallery_siblings_alt" loading="lazy" decoding="async" draggable="false" /></div>
+                <button type="button" class="gallery-enlarge" data-enlarge-gallery data-i18n="enlarge_screen">アプリ画面を見る</button>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="closing" id="store">
+          <div class="wrap">
+            <p class="section-kicker" data-i18n="closing_kicker">03 · 続ける</p>
+            <h2 data-i18n-html="closing_title">今日の記録も、<br />明日の思い出も。</h2>
+            <p data-i18n="closing_copy">声で残すお世話の記録。写真で残す、家族の毎日。すくすくぱしゃで、今日から。</p>
+          </div>
+          <div class="cta-dock" id="cta-dock">
+      <nav class="final-store-cta" id="final-store-cta" aria-label="アプリを始める">
+        <a class="ui-button ui-button-primary" href="https://link.thebabyfolio.com/b1c33u" target="_top" data-app-store-cta data-placement="closing"><span class="sticky-label" data-app-cta-label data-i18n="cta_before">App Storeで無料ダウンロード</span></a>
+      </nav>
+          </div>
+        </section>
+      </main>
+
+      <footer><div class="wrap"><span data-i18n="footer_product">すくすくぱしゃ · iOS</span><br /><span data-i18n="footer_note">声で残せる、毎日の育児記録。</span></div></footer>
+
+
+
+      <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    </div>
+
+    <dialog class="screen-dialog" aria-labelledby="screen-dialog-title">
+      <div class="screen-dialog-bar"><strong id="screen-dialog-title"></strong><form method="dialog"><button class="screen-dialog-close" aria-label="Close" type="submit">×</button></form></div>
+      <div class="screen-dialog-images" tabindex="0"></div>
+      <div class="screen-dialog-footer"><span class="screen-dialog-count" aria-live="polite"></span><form method="dialog"><button class="screen-dialog-return" type="submit" data-i18n="back_to_features">機能紹介に戻る</button></form></div>
+    </dialog>
+    <script>
+      const APP_STORE_CPP_URLS = { ja: "https://link.thebabyfolio.com/b1c33u", ko: "https://link.thebabyfolio.com/b1c33u" };
+      const translations = {
+        ja: {
+          title: "すくすくぱしゃ | 声だけで、記録はおしまい。",
+          description: "声だけで授乳や毎日の育児記録。記録のあとは、次のタイミングもそっとお知らせ。",
+          explore_after_demo: "ほかの便利な機能も見る ↓",
+          explore_features: "写真・スタンプの機能も見る",
+          enlarge_screen: "アプリ画面を見る",
+          back_to_features: "機能紹介に戻る",
+          nav_calendar: "カレンダー",
+          nav_family: "家族共有",
+          nav_stickers: "スタンプ",
+          nav_siblings: "きょうだい",
+          brand: "すくすくぱしゃ", brand_mark: "す", hero_kicker: "育児の記録を、もっと軽く。",
+          hero_title: "声だけで、<br /><em>記録はおしまい。</em>",
+          hero_copy: "授乳のたび、片手でメモは大変。<br />話すだけなら、赤ちゃんを抱いたままでも残せます。",
+          experience_cta: "タップで記録を体験する", hero_note: "録音なし。好きな例を選ぶだけ。",
+          hero_preview_label: "音声入力の例", hero_preview_next: "次もお知らせ", hero_voice_caption: "アプリでこう話すと", hero_voice_phrase: "「3時にミルク100ml」", hero_auto_badge: "自動", hero_recorded_result: "ミルク 100mlを記録",
+          experience_kicker: "01 · 音声記録を体験", experience_title: "声で話すと、<br />記録とお知らせまで。",
+          experience_lead: "このページでは録音せず、選んだ例文でアプリの音声入力を再現します。", demo_label: "音声記録体験",
+          voice_title: "アプリなら、<br />こう話すだけ。", voice_description: "下の例をひとつ選ぶと、声が記録になる流れが自動で始まります。",
+          voice_path_app: "アプリで", voice_path_say: "「3時に100ml」と話す", voice_path_automatic: "手入力なしで", voice_path_record: "自動で記録",
+          phrase_label: "どれを記録してみる？", phrase_count: "16種類",
+          chip_milk: "ミルク", chip_milk_phrase: "3時に100ml", chip_feeding: "母乳", chip_feeding_phrase: "14時に授乳", chip_stored_milk: "保存母乳", chip_stored_milk_phrase: "80ml飲んだ", chip_pumping: "搾乳", chip_pumping_phrase: "いま搾乳した",
+          chip_sleep: "睡眠", chip_sleep_phrase: "19:35に寝た", chip_food: "離乳食", chip_food_phrase: "おかゆを食べた", chip_snack: "おやつ", chip_snack_phrase: "15時におやつ", chip_poop: "おむつ", chip_poop_phrase: "うんちした",
+          chip_bath: "お風呂", chip_bath_phrase: "20時にお風呂", chip_temperature: "体温", chip_temperature_phrase: "36.8度", chip_medicine: "お薬", chip_medicine_phrase: "21時にお薬", chip_hospital: "通院", chip_hospital_phrase: "小児科へ",
+          chip_play: "遊び", chip_play_phrase: "うつぶせ遊び", chip_tummy: "タミータイム", chip_tummy_phrase: "10分した", chip_growth: "成長", chip_growth_phrase: "体重6.2kg", chip_memo: "メモ", chip_memo_phrase: "よく笑った",
+          trust_copy: "<strong>この体験では録音も送信もしません。</strong> 例文で音声入力の流れを再現します。", voice_demo_speaking: "アプリで話した場面を再現しています", voice_demo_converting: "言葉を記録に変えています…", demo_ready: "音声の例から、記録ができました", voice_route_say: "声で話す", voice_route_record: "自動で記録",
+          demo_bridge: "これは録音しない体験用の再現です。<br /><strong>アプリでは、あなたの声をそのまま記録に変えられます。</strong>", sticky_bridge_short: "アプリでは、あなたの声で記録",
+          heard_label: "声で話すと、こう記録されます", today_record: "記録できました", sample_date: "9月2日", record_complete: "記録完了",
+          record_added: "今日の記録に追加しました", privacy_reassurance: "録音も送信もしていません", notification_from: "から",
+          reminder_caption: "記録するだけ。次のタイミングは、アプリがそっとお知らせ。",
+          complete_message: "他の記録も、続けて試せます。",
+          cta_before: "App Storeで無料ダウンロード", cta_after: "App Storeで続ける",
+          gallery_calendar_tag: "写真をすっきり", gallery_calendar_title: "日付ごと・月ごとに、自動整理。", gallery_calendar_copy: "写真をアップロードするだけで、日付ごと・月ごとに自動で整理。お子さまの成長を、いつでも振り返れます。", gallery_calendar_alt: "写真を日付別に整理するカレンダー画面", gallery_calendar_month_alt: "写真を月別に振り返るアルバム画面",
+          gallery_family_tag: "家族といっしょに", gallery_family_title: "離れていても、成長を一緒に。", gallery_family_copy: "家族をアルバムに招待して、写真やコメントを共有。毎日の「かわいい」が会話になります。", gallery_family_alt: "離れて暮らす家族と写真やコメントを共有する画面",
+          gallery_stickers_tag: "オリジナルスタンプ",
+          gallery_stickers_title: "この笑顔が、家族のスタンプに。", gallery_stickers_copy: "アップした写真から、世界にひとつのスタンプを作成。家族の会話でも楽しめます。", gallery_stickers_alt: "子どもの写真からオリジナルスタンプを作る画面",
+          gallery_siblings_tag: "きょうだい別アルバム", gallery_siblings_title: "一人ひとりの成長を、きれいに。", gallery_siblings_copy: "写真が混ざらないよう、兄弟姉妹それぞれのアルバムへ。大切な成長を一人ずつ丁寧に残せます。", gallery_siblings_alt: "兄弟姉妹ごとに写真を分けて整理するアルバム画面", gallery_siblings_settings_alt: "兄弟姉妹をアルバムに追加する家族設定画面",
+          gallery_kicker: "02 · ほかにも", gallery_title: "思い出も、家族の時間も。<br />このひとつに。", gallery_hint: "4つの機能を見る →",
+          gallery_lead: "写真整理から家族共有、スタンプ作りまで。毎日にうれしい機能がそろっています。",
+          gallery_step_one: "あとから見返す", gallery_step_two: "リズムを知る", gallery_step_three: "成長を残す", gallery_step_four: "ぜんぶひとつに",
+          proof_today: "今日の記録", proof_date: "9月2日", proof_recorded: "記録済み", proof_started: "開始", proof_average_interval: "平均間隔", proof_three_hours: "約3時間", proof_today_count: "今日の授乳", proof_seven_times: "7回", proof_age: "生後245日", proof_today_growth: "今日の成長", proof_weight: "体重", proof_more: "ほか",
+          feature_timeline: "ひと目で、今日の流れ", feature_timeline_copy: "別々のお世話も、時間順にまとまって残ります。",
+          feature_stats: "授乳間隔がひと目でわかる", feature_stats_copy: "回数や間隔をまとめて、毎日の変化を振り返れます。",
+          feature_growth_gallery: "写真と一緒に、成長記録", feature_growth_gallery_copy: "その日の写真や身長・体重も、あとから見返せます。",
+          feature_categories: "授乳だけじゃない、16種類", feature_categories_copy: "睡眠、離乳食、体温、遊びまで、一つのアプリに。",
+          closing_kicker: "03 · 続ける", closing_title: "今日の記録も、<br />明日の思い出も。", closing_copy: "声で残すお世話の記録。写真で残す、家族の毎日。すくすくぱしゃで、今日から。",
+          footer_product: "すくすくぱしゃ · iOS", footer_note: "声で残せる、毎日の育児記録。", sticky_promise: "声だけで、記録はおしまい。",
+          catalog_milk: "ミルク", catalog_feeding: "母乳", catalog_stored_milk: "保存母乳", catalog_sleep: "ねんね", catalog_pumping: "搾乳", catalog_food: "離乳食", catalog_snack: "おやつ", catalog_poop: "排便", catalog_bath: "お風呂", catalog_temperature: "体温", catalog_medicine: "お薬", catalog_hospital: "通院", catalog_play: "遊び", catalog_tummy: "タミータイム", catalog_growth: "成長", catalog_memo: "メモ",
+          value_recorded: "記録しました", value_sleep: "開始", value_bath: "入浴", value_temperature: "36.8℃", value_medicine: "服用", value_tummy: "10分", value_growth: "6.2kg", value_memo: "ひとこと", reminder_milk: "次の授乳は{time}ごろですよ", reminder_sleep: "そろそろ次のねんねの時間ですよ",
+          reminder_pumping: "次の搾乳の目安、お知らせしますね", reminder_food: "次の離乳食の目安、そっとお知らせしますね", reminder_snack: "次のおやつも、忘れないように残せますよ", reminder_poop: "次のおむつ記録も、そっとお知らせしますね", reminder_bath: "お風呂の記録も、今日の流れに残しました", reminder_temperature: "次の検温も、記録からすぐ見返せます", reminder_medicine: "お薬の記録も、あとから確認できます", reminder_hospital: "通院の記録も、まとめて見返せます", reminder_play: "遊びの時間も、成長の記録になりますよ", reminder_tummy: "タミータイムも、続けて記録できます", reminder_growth: "成長の記録も、気づいたときに。", reminder_memo: "今日のひとことも、大切に残しました",
+          reminder_auto: "アプリがそっとお知らせします", reminder_soft: "時間になったら、そっとお知らせ", complete_toast: "記録しました。アプリでも、ずっとこの手軽さで。",
+          preset_values: { milk: "午後3時にミルクを100ml飲んだ", feeding: "14時に母乳を飲んだ", stored_milk: "保存母乳を80ml飲んだ", pumping: "搾乳した", sleep: "19:35に寝た", food: "12時におかゆを食べた", snack: "15時におやつを食べた", poop: "14時にうんちした", bath: "20時にお風呂に入った", temperature: "体温は36.8度", medicine: "21時にお薬を飲んだ", hospital: "小児科に行った", play: "うつぶせ遊びをした", tummy: "10分タミータイムをした", growth: "体重は6.2kg", memo: "メモ、今日はよく笑った" }
+        },
+        ko: {
+          title: "쑥쑥찰칵 | 말만 하면, 기록은 끝.",
+          description: "말 한마디로 수유와 매일의 육아 기록을 남기고, 다음 돌봄 시점도 부드럽게 알림 받아보세요.",
+          explore_after_demo: "다른 편리한 기능도 둘러보기 ↓",
+          explore_features: "사진·스탬프 기능도 둘러보기",
+          enlarge_screen: "앱 화면 살펴보기",
+          back_to_features: "기능 소개로 돌아가기",
+          nav_calendar: "달력",
+          nav_family: "가족 공유",
+          nav_stickers: "스탬프",
+          nav_siblings: "아이별",
+          brand: "쑥쑥찰칵", brand_mark: "쑥", hero_kicker: "육아 기록을, 더 가볍게.",
+          hero_title: "말만 하면,<br /><em>기록은 끝.</em>",
+          hero_copy: "수유할 때마다 한 손으로 메모하기는 어려워요.<br />말로 남기면 아기를 안은 채로도 기록할 수 있어요.",
+          experience_cta: "눌러서 기록 체험하기", hero_note: "녹음 없이, 원하는 예시만 골라 보세요.",
+          hero_preview_label: "음성 입력 예시", hero_preview_next: "다음도 알림", hero_voice_caption: "앱에서 이렇게 말하면", hero_voice_phrase: "‘3시에 분유 100ml’", hero_auto_badge: "자동", hero_recorded_result: "분유 100ml 기록 완료",
+          experience_kicker: "01 · 음성 기록 체험", experience_title: "말로 남기면,<br />기록부터 알림까지.",
+          experience_lead: "이 페이지에서는 녹음하지 않고, 고른 예문으로 앱의 음성 입력을 재현해요.", demo_label: "음성 기록 체험",
+          voice_title: "앱에서는,<br />이렇게 말만 하세요.", voice_description: "아래 예시를 하나 고르면 말이 기록되는 흐름이 자동으로 시작돼요.",
+          voice_path_app: "앱에서", voice_path_say: "‘3시에 100ml’라고 말하기", voice_path_automatic: "손으로 쓰지 않아도", voice_path_record: "자동으로 기록",
+          phrase_label: "어떤 기록을 해볼까요?", phrase_count: "16가지",
+          chip_milk: "분유", chip_milk_phrase: "오후 3시 100ml", chip_feeding: "모유", chip_feeding_phrase: "14시에 수유", chip_stored_milk: "저장 모유", chip_stored_milk_phrase: "80ml 먹었어", chip_pumping: "유축", chip_pumping_phrase: "방금 유축했어",
+          chip_sleep: "수면", chip_sleep_phrase: "19:35에 잤어", chip_food: "이유식", chip_food_phrase: "죽을 먹었어", chip_snack: "간식", chip_snack_phrase: "15시에 간식", chip_poop: "배변", chip_poop_phrase: "14시에 응가",
+          chip_bath: "목욕", chip_bath_phrase: "20시에 목욕", chip_temperature: "체온", chip_temperature_phrase: "36.8도", chip_medicine: "약", chip_medicine_phrase: "21시에 약", chip_hospital: "병원", chip_hospital_phrase: "소아과 다녀옴",
+          chip_play: "놀이", chip_play_phrase: "엎드려 놀기", chip_tummy: "터미타임", chip_tummy_phrase: "10분 했어", chip_growth: "성장", chip_growth_phrase: "체중 6.2kg", chip_memo: "메모", chip_memo_phrase: "잘 웃었어",
+          trust_copy: "<strong>이 체험에서는 녹음도 전송도 하지 않아요.</strong> 예문으로 음성 입력 흐름을 재현합니다.", voice_demo_speaking: "앱에서 말한 장면을 재현하고 있어요", voice_demo_converting: "말을 기록으로 바꾸고 있어요…", demo_ready: "음성 예시가 기록으로 바뀌었어요", voice_route_say: "말로 남기기", voice_route_record: "자동으로 기록",
+          demo_bridge: "지금은 녹음하지 않는 체험용 재현입니다.<br /><strong>앱에서는 내 목소리를 그대로 기록으로 바꿀 수 있어요.</strong>", sticky_bridge_short: "앱에서는 내 목소리로 기록",
+          heard_label: "말로 남기면 이렇게 기록돼요", today_record: "기록됐어요", sample_date: "9월 2일", record_complete: "기록 완료",
+          record_added: "오늘 기록에 추가했어요", privacy_reassurance: "녹음도 전송도 하지 않았어요", notification_from: "에서",
+          reminder_caption: "기록만 하세요. 다음 돌봄 시점은 앱이 살짝 알려드려요.",
+          complete_message: "다른 기록도 이어서 체험해보세요.",
+          cta_before: "App Store에서 무료 다운로드", cta_after: "App Store에서 이어하기",
+          gallery_calendar_tag: "사진 자동 정리", gallery_calendar_title: "날짜·월별로 자동 정리해요.", gallery_calendar_copy: "사진만 올리면 날짜별·월별로 깔끔하게 정리돼요. 아이의 변화도 빠르게 다시 볼 수 있어요.", gallery_calendar_alt: "사진을 날짜별로 정리하는 달력 화면", gallery_calendar_month_alt: "사진을 월별로 돌아보는 앨범 화면",
+          gallery_family_tag: "가족과 함께", gallery_family_title: "멀리 있어도 성장을 함께.", gallery_family_copy: "가족을 앨범에 초대해 사진과 댓글을 나눠요. 매일의 귀여운 순간이 가족의 대화가 돼요.", gallery_family_alt: "멀리 사는 가족과 사진과 댓글을 공유하는 화면",
+          gallery_stickers_tag: "우리 아이 스탬프",
+          gallery_stickers_title: "이 웃음이 가족만의 스탬프로.", gallery_stickers_copy: "올린 사진으로 하나뿐인 스탬프를 만들어요. 가족과 대화할 때도 즐겁게 사용할 수 있어요.", gallery_stickers_alt: "아이 사진으로 오리지널 스탬프를 만드는 화면",
+          gallery_siblings_tag: "아이별 앨범", gallery_siblings_title: "형제자매의 성장을 따로, 깔끔하게.", gallery_siblings_copy: "사진이 섞이지 않도록 아이마다 앨범을 나눠요. 각자의 소중한 성장 순간을 차곡차곡 남길 수 있어요.", gallery_siblings_alt: "형제자매별로 사진을 나누어 정리하는 앨범 화면", gallery_siblings_settings_alt: "형제자매를 앨범에 추가하는 가족 설정 화면",
+          gallery_kicker: "02 · 이외에도", gallery_title: "추억도, 가족의 시간도.<br />이곳에 차곡차곡.", gallery_hint: "4가지 기능 보기 →",
+          gallery_lead: "사진 정리부터 가족 공유, 스탬프 만들기까지. 매일 손이 가는 기능을 담았어요.",
+          gallery_step_one: "나중에 다시 보기", gallery_step_two: "리듬 파악하기", gallery_step_three: "성장 남기기", gallery_step_four: "모두 한곳에",
+          proof_today: "오늘의 기록", proof_date: "9월 2일", proof_recorded: "기록됨", proof_started: "시작", proof_average_interval: "평균 간격", proof_three_hours: "약 3시간", proof_today_count: "오늘 수유", proof_seven_times: "7회", proof_age: "생후 245일", proof_today_growth: "오늘의 성장", proof_weight: "몸무게", proof_more: "더보기",
+          feature_timeline: "한눈에 보는 오늘의 흐름", feature_timeline_copy: "서로 다른 돌봄도 시간순으로 모아볼 수 있어요.",
+          feature_stats: "수유 간격을 한눈에", feature_stats_copy: "횟수와 간격을 모아 매일의 변화를 돌아볼 수 있어요.",
+          feature_growth_gallery: "사진과 함께 성장 기록", feature_growth_gallery_copy: "그날의 사진과 키·몸무게도 나중에 다시 볼 수 있어요.",
+          feature_categories: "수유만이 아닌 16가지", feature_categories_copy: "수면, 이유식, 체온, 놀이까지 한 앱에 모아요.",
+          closing_kicker: "03 · 계속하기", closing_title: "오늘의 기록도,<br />내일의 추억도.", closing_copy: "말로 남기는 육아 기록, 사진으로 간직하는 우리 가족의 하루. 쑥쑥찰칵에서 시작해 보세요.",
+          footer_product: "쑥쑥찰칵 · iOS", footer_note: "목소리로 남기는 매일의 육아 기록.", sticky_promise: "말만 하면, 기록은 끝.",
+          catalog_milk: "분유", catalog_feeding: "모유", catalog_stored_milk: "저장 모유", catalog_sleep: "수면", catalog_pumping: "유축", catalog_food: "이유식", catalog_snack: "간식", catalog_poop: "배변", catalog_bath: "목욕", catalog_temperature: "체온", catalog_medicine: "약", catalog_hospital: "병원", catalog_play: "놀이", catalog_tummy: "터미타임", catalog_growth: "성장", catalog_memo: "메모",
+          value_recorded: "기록했어요", value_sleep: "시작", value_bath: "목욕", value_temperature: "36.8℃", value_medicine: "복용", value_tummy: "10분", value_growth: "6.2kg", value_memo: "한마디", reminder_milk: "다음 수유는 {time}쯤이에요", reminder_sleep: "슬슬 다음 잠잘 시간이에요",
+          reminder_pumping: "다음 유축 시점을 알려드릴게요", reminder_food: "다음 이유식 시점을 살짝 알려드릴게요", reminder_snack: "다음 간식도 잊지 않게 기록할 수 있어요", reminder_poop: "다음 기저귀 기록도 잊지 않게 알려드릴게요", reminder_bath: "목욕 기록도 오늘 흐름에 남겼어요", reminder_temperature: "다음 체온도 기록에서 바로 확인할 수 있어요", reminder_medicine: "약 기록도 나중에 다시 확인할 수 있어요", reminder_hospital: "병원 기록도 한곳에서 다시 볼 수 있어요", reminder_play: "놀이 시간도 성장 기록이 돼요", reminder_tummy: "터미타임도 이어서 기록할 수 있어요", reminder_growth: "성장 기록도 놓치지 않게 알려드릴게요", reminder_memo: "오늘의 한마디도 소중하게 남겼어요",
+          reminder_auto: "앱이 알아서 알려드려요", reminder_soft: "시간이 되면 살짝 알려드려요", complete_toast: "기록했어요. 앱에서도 계속 이렇게 간편하게.",
+          preset_values: { milk: "오후 3시에 분유 100ml 먹었어", feeding: "14시에 모유 수유했어", stored_milk: "저장 모유 80ml 먹었어", pumping: "유축했어", sleep: "19시 35분에 잤어", food: "12시에 이유식 죽을 먹었어", snack: "15시에 간식 먹었어", poop: "14시에 응가했어", bath: "20시에 목욕했어", temperature: "체온 36.8도야", medicine: "21시에 약 먹었어", hospital: "소아과 다녀왔어", play: "엎드려 놀았어", tummy: "터미타임 10분 했어", growth: "체중 6.2kg이야", memo: "메모, 오늘은 잘 웃었어" }
+        }
+      };
+
+      const pageParams = new URLSearchParams(window.location.search);
+      const requestedLocale = pageParams.get("lang");
+      const documentLocale = document.documentElement.lang === "ko" ? "ko" : "ja";
+      const locale = requestedLocale === "ja" || requestedLocale === "ko" ? requestedLocale : documentLocale;
+      const SHOW_LOCALE_SWITCH = pageParams.get("debugLocale") === "1";
+      const copy = translations[locale];
+      const pageEnteredAt = performance.now();
+      const demoListening = document.querySelector("#demo-listening");
+      const demoStatus = document.querySelector("#demo-status");
+      const demoTranscript = document.querySelector("#demo-transcript");
+      const recordResult = document.querySelector("#record-result");
+      const completeNext = document.querySelector("#complete-next");
+      const finalStoreCta = document.querySelector("#final-store-cta");
+      const toast = document.querySelector("#toast");
+      const phraseChips = document.querySelector("#phrase-chips");
+      let toastTimer;
+      let demoTimer;
+      let conversionTimer;
+      let heroDemoTimer;
+      let selectedPreset = "milk";
+      let experienceStarted = false;
+      let experienceCompleted = false;
+      let gallerySwiped = false;
+      let experienceStartedAt = 0;
+      const triedCategories = new Set();
+      const experienceMode = "voice_example_simulation";
+
+      function applyLocale() {
+        document.documentElement.lang = locale;
+        document.title = copy.title;
+        const description = document.querySelector('meta[name="description"]');
+        if (description) description.content = copy.description;
+        document.querySelectorAll("[data-i18n]").forEach((element) => {
+          const value = copy[element.dataset.i18n];
+          if (typeof value === "string") element.textContent = value;
+        });
+        document.querySelectorAll("[data-i18n-html]").forEach((element) => {
+          const value = copy[element.dataset.i18nHtml];
+          if (typeof value === "string") element.innerHTML = value;
+        });
+        document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
+          const value = copy[element.dataset.i18nAlt];
+          if (typeof value === "string") element.alt = value;
+        });
+        document.querySelector("[data-brand-mark]").textContent = copy.brand_mark;
+        document.querySelector(".brand").setAttribute("aria-label", locale === "ja" ? "すくすくぱしゃ ホーム" : "쑥쑥찰칵 홈");
+        document.querySelector('[data-i18n="sample_date"]').textContent = new Intl.DateTimeFormat(locale === "ja" ? "ja-JP" : "ko-KR", { month: "long", day: "numeric" }).format(new Date());
+        finalStoreCta.setAttribute("aria-label", locale === "ja" ? "アプリを始める" : "앱 시작하기");
+        document.querySelector("#gallery-scroller").setAttribute("aria-label", locale === "ja" ? "記録機能ギャラリー" : "기록 기능 갤러리");
+        phraseChips.setAttribute("aria-label", locale === "ja" ? "体験する記録を選ぶ" : "체험할 기록 고르기");
+        document.querySelectorAll("[data-lang-option]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.langOption === locale)));
+        document.querySelector(".language-switch").hidden = !SHOW_LOCALE_SWITCH;
+      }
+
+      const recordCatalog = {
+        milk: { category: copy.catalog_milk, icon: "assets/feeding-ui/icons/formula.jpg", reminder: copy.reminder_milk, value: "" },
+        feeding: { category: copy.catalog_feeding, icon: "assets/feeding-ui/icons/mothers-milk.jpg", reminder: copy.reminder_milk, value: copy.value_recorded },
+        stored_milk: { category: copy.catalog_stored_milk, icon: "assets/feeding-ui/icons/stored-milk.jpg", reminder: copy.reminder_milk, value: "" },
+        sleep: { category: copy.catalog_sleep, icon: "assets/feeding-ui/icons/sleep.jpg", reminder: copy.reminder_sleep, value: copy.value_sleep },
+        pumping: { category: copy.catalog_pumping, icon: "assets/feeding-ui/icons/pumping.jpg", reminder: copy.reminder_pumping, value: copy.value_recorded },
+        food: { category: copy.catalog_food, icon: "assets/feeding-ui/icons/baby-food.jpg", reminder: copy.reminder_food, value: copy.value_recorded },
+        snack: { category: copy.catalog_snack, icon: "assets/feeding-ui/icons/snack.jpg", reminder: copy.reminder_snack, value: copy.value_recorded },
+        poop: { category: copy.catalog_poop, icon: "assets/feeding-ui/icons/nappy.jpg", reminder: copy.reminder_poop, value: copy.value_recorded },
+        bath: { category: copy.catalog_bath, icon: "assets/feeding-ui/icons/bath.jpg", reminder: copy.reminder_bath, value: copy.value_bath },
+        temperature: { category: copy.catalog_temperature, icon: "assets/feeding-ui/icons/temperature.jpg", reminder: copy.reminder_temperature, value: copy.value_temperature },
+        medicine: { category: copy.catalog_medicine, icon: "assets/feeding-ui/icons/medicine.jpg", reminder: copy.reminder_medicine, value: copy.value_medicine },
+        hospital: { category: copy.catalog_hospital, icon: "assets/feeding-ui/icons/hospital.jpg", reminder: copy.reminder_hospital, value: copy.value_recorded },
+        play: { category: copy.catalog_play, icon: "assets/feeding-ui/icons/play.jpg", reminder: copy.reminder_play, value: copy.value_recorded },
+        tummy: { category: copy.catalog_tummy, icon: "assets/feeding-ui/icons/tummy-time.jpg", reminder: copy.reminder_tummy, value: copy.value_tummy },
+        growth: { category: copy.catalog_growth, icon: "assets/feeding-ui/icons/growth.jpg", reminder: copy.reminder_growth, value: copy.value_growth },
+        memo: { category: copy.catalog_memo, icon: "assets/feeding-ui/icons/memo.jpg", reminder: copy.reminder_memo, value: copy.value_memo }
+      };
+
+      function classifyCareInput(value) {
+        if (/保存母乳|冷凍母乳|저장\s*모유|냉동\s*모유/.test(value)) return "stored_milk";
+        if (/ミルク|哺乳|분유/.test(value)) return "milk";
+        if (/母乳|授乳|모유|수유/.test(value)) return "feeding";
+        if (/睡眠|寝た|ねんね|寝かし|수면|잤|잠들|재웠/.test(value)) return "sleep";
+        if (/搾乳|さく乳|유축/.test(value)) return "pumping";
+        if (/お薬|服薬|薬を|약\s*먹|복용/.test(value)) return "medicine";
+        if (/おやつ|間食|간식/.test(value)) return "snack";
+        if (/離乳食|食べ|이유식|먹었|먹임/.test(value)) return "food";
+        if (/排便|うんち|おむつ|배변|응가|똥|기저귀/.test(value)) return "poop";
+        if (/お風呂|入浴|목욕/.test(value)) return "bath";
+        if (/体温|検温|체온|열\s*쟀/.test(value)) return "temperature";
+        if (/病院|小児科|通院|병원|소아과/.test(value)) return "hospital";
+        if (/タミータイム|터미타임/.test(value)) return "tummy";
+        if (/遊び|遊ん|놀이|놀았|놀기/.test(value)) return "play";
+        if (/成長|身長|体重|성장|키|몸무게|체중/.test(value)) return "growth";
+        if (/メモ|ひとこと|메모|한마디/.test(value)) return "memo";
+        return "";
+      }
+
+      function parseCareInput(text) {
+        let value = String(text || "").trim();
+        let kind = classifyCareInput(value);
+        let usedFallback = false;
+        if (!kind) {
+          value = copy.preset_values[selectedPreset];
+          kind = classifyCareInput(value) || "milk";
+          usedFallback = true;
+        }
+        const now = new Date();
+        const timeMatch = value.match(/(午後|午前|오후|오전|새벽)?\s*(\d{1,2})\s*(?::\s*(\d{1,2})|(?:時|시)(?:\s*(\d{1,2}))?)/);
+        let hour = timeMatch ? Number(timeMatch[2]) : now.getHours();
+        const minute = timeMatch ? Number(timeMatch[3] || timeMatch[4] || 0) : now.getMinutes();
+        if (timeMatch && /午後|오후/.test(timeMatch[1] || "") && hour < 12) hour += 12;
+        if (timeMatch && /午前|오전|새벽/.test(timeMatch[1] || "") && hour === 12) hour = 0;
+        const categoryAmount = value.match(/(?:ミルク|哺乳|분유)\s*(\d{2,4})\s*(?:ml|ミリ|ミリリットル|미리|밀리리터)?/i);
+        const unitAmount = value.match(/(\d{2,4})\s*(?:ml|ミリ|ミリリットル|미리|밀리리터)/i);
+        const amountMatch = categoryAmount || unitAmount;
+        const amount = amountMatch ? `${amountMatch[1]}ml` : kind === "milk" ? "100ml" : "";
+        return { kind, hour: hour % 24, minute, amount, usedFallback };
+      }
+
+      function formatTime(hour, minute) {
+        return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+      }
+
+      function formatReminderTime(hour, minute) {
+        return `${hour}:${String(minute).padStart(2, "0")}`;
+      }
+
+      function renderResult(parsed) {
+        const item = recordCatalog[parsed.kind];
+        const time = formatTime(parsed.hour, parsed.minute);
+        const value = parsed.amount || item.value;
+        const recordIcon = document.querySelector("#record-icon");
+        const sentence = document.querySelector("#result-sentence");
+        document.querySelector("#record-time").textContent = time;
+        document.querySelector("#record-category").textContent = item.category;
+        document.querySelector("#record-value").textContent = value;
+        recordIcon.src = item.icon;
+        recordIcon.alt = item.category;
+        document.querySelector("#app-record-card").dataset.category = parsed.kind;
+        sentence.replaceChildren(document.createTextNode(locale === "ja" ? `${time}に ` : `${time}에 `));
+        const emphasis = document.createElement("em");
+        emphasis.textContent = `${item.category}${value ? ` ${value}` : ""}`;
+        sentence.append(emphasis, document.createTextNode(locale === "ja" ? "。今日の記録に追加しました。" : " 기록을 오늘 기록에 추가했어요."));
+      }
+
+      function renderReminder(parsed) {
+        const item = recordCatalog[parsed.kind];
+        const reminderTitle = document.querySelector("#reminder-title");
+        const reminderTime = document.querySelector("#reminder-time");
+        if (parsed.kind === "milk" || parsed.kind === "feeding" || parsed.kind === "stored_milk") {
+          const nextMinutes = parsed.hour * 60 + parsed.minute + 180;
+          const nextHour = Math.floor((nextMinutes % 1440) / 60);
+          const nextMinute = nextMinutes % 60;
+          const nextTime = formatReminderTime(nextHour, nextMinute);
+          reminderTitle.textContent = item.reminder.replace("{time}", nextTime);
+          reminderTime.textContent = copy.reminder_soft;
+        } else {
+          reminderTitle.textContent = item.reminder;
+          reminderTime.textContent = copy.reminder_auto;
+        }
+        track("reminder_shown", { category: parsed.kind, mode: experienceMode, tried_category_count: triedCategories.size, locale });
+      }
+
+      function track(name, params = {}) {
+        const event = { event: name, ...params };
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(event);
+        window.dispatchEvent(new CustomEvent("landing:track", { detail: event }));
+        console.info("[landing tracking]", event);
+      }
+
+      function showToast(message) {
+        window.clearTimeout(toastTimer);
+        toast.textContent = message;
+        toast.hidden = false;
+        toastTimer = window.setTimeout(() => { toast.hidden = true; }, 3000);
+      }
+
+      function startExperienceFromHero() {
+        window.clearTimeout(heroDemoTimer);
+        const choices = document.querySelector("#try-choices");
+        document.querySelector("#experience").classList.add("is-visible");
+        choices.focus({ preventScroll: true });
+        choices.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+        track("experience_choices_open", { placement: "hero", locale });
+      }
+
+      function runChipExperience(key, trigger = "chip") {
+        if (!copy.preset_values[key]) return;
+        if (trigger === "chip") window.clearTimeout(heroDemoTimer);
+        window.clearTimeout(demoTimer);
+        window.clearTimeout(conversionTimer);
+        selectedPreset = key;
+        const isFirstCompletion = !experienceCompleted;
+        if (!experienceStarted) {
+          experienceStarted = true;
+          experienceStartedAt = performance.now();
+          track("experience_start", { mode: experienceMode, t_enter_to_start: Math.round(experienceStartedAt - pageEnteredAt), locale });
+        }
+        triedCategories.add(key);
+        track(trigger === "chip" ? "chip_tap" : "hero_demo_autostart", { category: key, mode: experienceMode, tried_category_count: triedCategories.size, locale });
+        document.querySelectorAll("[data-preset]").forEach((chip) => {
+          chip.setAttribute("aria-pressed", String(chip.dataset.preset === key));
+          chip.disabled = true;
+        });
+        phraseChips.setAttribute("aria-busy", "true");
+        recordResult.hidden = true;
+        demoListening.hidden = false;
+        demoListening.classList.remove("is-speaking", "is-converting", "is-complete");
+        demoStatus.textContent = copy.voice_demo_speaking;
+        demoTranscript.textContent = locale === "ja" ? `「${copy.preset_values[key]}」` : `“${copy.preset_values[key]}”`;
+        void demoListening.offsetWidth;
+        demoListening.classList.add("is-speaking");
+        track("voice_example_simulation_start", { category: key, trigger, mode: experienceMode, tried_category_count: triedCategories.size, locale });
+        conversionTimer = window.setTimeout(() => {
+          demoListening.classList.remove("is-speaking");
+          demoListening.classList.add("is-converting");
+          demoStatus.textContent = copy.voice_demo_converting;
+          track("example_conversion_start", { category: key, mode: experienceMode, tried_category_count: triedCategories.size, locale });
+        }, 900);
+        demoTimer = window.setTimeout(() => {
+          demoListening.classList.remove("is-speaking", "is-converting", "is-complete");
+          void demoListening.offsetWidth;
+          demoListening.classList.add("is-complete");
+          demoStatus.textContent = copy.demo_ready;
+          phraseChips.removeAttribute("aria-busy");
+          document.querySelectorAll("[data-preset]").forEach((chip) => { chip.disabled = false; });
+          track("example_conversion_complete", { category: key, mode: experienceMode, tried_category_count: triedCategories.size, locale });
+          finishExperience(copy.preset_values[key], isFirstCompletion);
+        }, 1600);
+      }
+
+      function finishExperience(transcript, isFirstCompletion) {
+        experienceCompleted = true;
+        const parsed = parseCareInput(transcript);
+        recordResult.hidden = true;
+        void recordResult.offsetWidth;
+        recordResult.hidden = false;
+        completeNext.hidden = false;
+
+        renderResult(parsed);
+
+        track("record_card_shown", { category: parsed.kind, parser_fallback: parsed.usedFallback, mode: experienceMode, tried_category_count: triedCategories.size, locale });
+        renderReminder(parsed);
+        track("experience_complete", { category: parsed.kind, mode: experienceMode, tried_category_count: triedCategories.size, t_start_to_complete: Math.round(performance.now() - experienceStartedAt), locale });
+        showToast(copy.complete_toast);
+        if (isFirstCompletion) {
+          const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          window.requestAnimationFrame(() => recordResult.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" }));
+        }
+      }
+
+      function getAppStoreDestination() {
+        const target = APP_STORE_CPP_URLS[locale];
+        if (target.startsWith("#")) return target;
+        const destination = new URL(target);
+        const current = new URL(window.location.href);
+        current.searchParams.forEach((value, key) => {
+          if (/^utm_/i.test(key) || /^(fbclid|gclid|ttclid)$/i.test(key)) destination.searchParams.set(key, value);
+        });
+        return destination.toString();
+      }
+
+      function initSectionReveals() {
+        const sections = [...document.querySelectorAll(".experience-section, .gallery-section, .closing")];
+        sections.forEach((section) => section.classList.add("reveal-ready"));
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+          sections.forEach((section) => section.classList.add("is-visible"));
+          return;
+        }
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: 0, rootMargin: "0px 0px -8% 0px" });
+        sections.forEach((section) => observer.observe(section));
+      }
+
+
+      applyLocale();
+      initSectionReveals();
+
+      document.querySelectorAll("[data-lang-option]").forEach((button) => button.addEventListener("click", () => {
+        const url = new URL(window.location.href);
+        url.searchParams.set("lang", button.dataset.langOption);
+        window.location.href = url.toString();
+      }));
+      document.querySelectorAll("[data-preset]").forEach((button) => button.addEventListener("click", () => runChipExperience(button.dataset.preset)));
+      document.querySelectorAll("[data-start-experience]").forEach((button) => button.addEventListener("click", startExperienceFromHero));
+
+      const galleryScroller = document.querySelector("#gallery-scroller");
+      const galleryCards = [...galleryScroller.querySelectorAll(".gallery-card")];
+      let galleryTarget = 0;
+      let galleryMoving = false;
+      let gallerySettle;
+      function galleryPositions() {
+        const first = galleryCards[0].offsetLeft;
+        const max = galleryScroller.scrollWidth - galleryScroller.clientWidth;
+        return galleryCards.map(card => Math.min(max, card.offsetLeft - first));
+      }
+      function galleryIndex() {
+        const positions = galleryPositions();
+        return positions.reduce((best, pos, i) => Math.abs(pos - galleryScroller.scrollLeft) < Math.abs(positions[best] - galleryScroller.scrollLeft) ? i : best, 0);
+      }
+      function updateGallery(index = galleryIndex()) {
+        document.querySelectorAll("[data-gallery-shortcut]").forEach((button, i) => button.setAttribute("aria-pressed", String(i === index)));
+      }
+      function goToGallery(index) {
+        galleryTarget = Math.max(0, Math.min(galleryCards.length - 1, index));
+        galleryMoving = true;
+        galleryScroller.scrollTo({ left: galleryPositions()[galleryTarget], behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+        updateGallery(galleryTarget);
+      }
+      document.querySelector(".gallery-hint").addEventListener("click", () => goToGallery(((galleryMoving ? galleryTarget : galleryIndex()) + 1) % galleryCards.length));
+      document.querySelectorAll("[data-gallery-shortcut]").forEach(button => button.addEventListener("click", () => goToGallery(Number(button.dataset.galleryShortcut))));
+      const screenDialog = document.querySelector(".screen-dialog");
+      document.querySelectorAll("[data-enlarge-gallery]").forEach(button => button.addEventListener("click", () => {
+        const card = button.closest(".gallery-card");
+        document.querySelector("#screen-dialog-title").textContent = card.querySelector("h3").textContent;
+        const images = [...card.querySelectorAll(".gallery-screens img")].map(image => {
+          const enlarged = image.cloneNode();
+          enlarged.loading = "eager";
+          return enlarged;
+        });
+        document.querySelector(".screen-dialog-images").replaceChildren(...images);
+        screenDialog.querySelector(".screen-dialog-close").setAttribute("aria-label", locale === "ja" ? "閉じる" : "닫기");
+        screenDialog.showModal();
+        const viewer = document.querySelector(".screen-dialog-images");
+        viewer.scrollLeft = 0;
+        document.querySelector(".screen-dialog-count").textContent = `1 / ${images.length}`;
+        document.body.classList.add("screen-dialog-open");
+      }));
+      const screenViewer = document.querySelector(".screen-dialog-images");
+      screenViewer.addEventListener("scroll", () => {
+        const images = [...screenViewer.querySelectorAll("img")];
+        if (!images.length) return;
+        const first = images[0].offsetLeft;
+        const closest = images.reduce((best, img, index) => Math.abs(img.offsetLeft - first - screenViewer.scrollLeft) < Math.abs(images[best].offsetLeft - first - screenViewer.scrollLeft) ? index : best, 0);
+        document.querySelector(".screen-dialog-count").textContent = `${closest + 1} / ${images.length}`;
+      }, { passive: true });
+      screenViewer.addEventListener("keydown", event => {
+        if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+        event.preventDefault();
+        screenViewer.scrollBy({ left: screenViewer.clientWidth * (event.key === "ArrowRight" ? 1 : -1), behavior: "smooth" });
+      });
+      screenDialog.addEventListener("close", () => document.body.classList.remove("screen-dialog-open"));
+      screenDialog.addEventListener("click", event => {
+        const bounds = screenDialog.getBoundingClientRect();
+        if (event.target === screenDialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) screenDialog.close();
+      });
+      galleryScroller.addEventListener("keydown", event => {
+        const index = galleryMoving ? galleryTarget : galleryIndex();
+        const destination = { ArrowLeft: index - 1, ArrowRight: index + 1, Home: 0, End: galleryCards.length - 1 }[event.key];
+        if (destination === undefined) return;
+        event.preventDefault();
+        goToGallery(destination);
+      });
+      let galleryDrag;
+      galleryScroller.addEventListener("pointerdown", event => {
+        if (event.pointerType !== "mouse" || event.button !== 0 || event.target.closest("button, a")) return;
+        galleryMoving = false;
+        galleryDrag = { x: event.clientX, left: galleryScroller.scrollLeft, index: galleryIndex() };
+        galleryScroller.setPointerCapture(event.pointerId);
+        galleryScroller.classList.add("is-dragging");
+        event.preventDefault();
+      });
+      galleryScroller.addEventListener("pointermove", event => {
+        if (galleryDrag) galleryScroller.scrollLeft = galleryDrag.left + galleryDrag.x - event.clientX;
+      });
+      function finishGalleryDrag(event) {
+        if (!galleryDrag) return;
+        const delta = galleryDrag.x - event.clientX;
+        const destination = Math.abs(delta) > 40 ? galleryDrag.index + Math.sign(delta) : galleryDrag.index;
+        galleryDrag = null;
+        galleryScroller.classList.remove("is-dragging");
+        if (galleryScroller.hasPointerCapture(event.pointerId)) galleryScroller.releasePointerCapture(event.pointerId);
+        goToGallery(destination);
+      }
+      galleryScroller.addEventListener("pointerup", finishGalleryDrag);
+      galleryScroller.addEventListener("pointercancel", finishGalleryDrag);
+      galleryScroller.addEventListener("scroll", () => {
+        if (!galleryMoving) updateGallery();
+        clearTimeout(gallerySettle);
+        gallerySettle = setTimeout(() => { galleryMoving = false; galleryTarget = galleryIndex(); updateGallery(); }, 160);
+        if (!gallerySwiped && galleryScroller.scrollLeft >= 12) {
+          gallerySwiped = true;
+          track("gallery_swipe", { direction: "horizontal", locale });
+        }
+      }, { passive: true });
+      window.addEventListener("resize", () => goToGallery(galleryTarget));
+      updateGallery();
+
+      // Allow time to read each feature; only rotate while the cards are in view.
+      const gallerySection = document.querySelector("#gallery");
+      const galleryMotion = matchMedia("(prefers-reduced-motion: reduce)");
+      let galleryAutoTimer;
+      let galleryInView = false;
+      let galleryPointerDown = false;
+      function scheduleGalleryAuto() {
+        clearTimeout(galleryAutoTimer);
+        const keyboardFocus = gallerySection.contains(document.activeElement) && document.activeElement.matches(":focus-visible");
+        if (!galleryInView || document.hidden || screenDialog.open || galleryMotion.matches || galleryPointerDown || keyboardFocus) return;
+        galleryAutoTimer = setTimeout(() => {
+          goToGallery((galleryIndex() + 1) % galleryCards.length);
+          scheduleGalleryAuto();
+        }, 3000);
+      }
+      const galleryAutoObserver = new IntersectionObserver(entries => {
+        galleryInView = entries[0].isIntersecting && entries[0].intersectionRatio >= .5;
+        scheduleGalleryAuto();
+      }, { threshold: [0, .5] });
+      galleryAutoObserver.observe(galleryScroller);
+      gallerySection.addEventListener("pointerdown", () => { galleryPointerDown = true; scheduleGalleryAuto(); });
+      window.addEventListener("pointerup", () => { if (galleryPointerDown) { galleryPointerDown = false; scheduleGalleryAuto(); } });
+      window.addEventListener("pointercancel", () => { galleryPointerDown = false; scheduleGalleryAuto(); });
+      gallerySection.addEventListener("focusin", scheduleGalleryAuto);
+      gallerySection.addEventListener("focusout", () => setTimeout(scheduleGalleryAuto, 0));
+      gallerySection.addEventListener("click", scheduleGalleryAuto);
+      galleryScroller.addEventListener("scroll", scheduleGalleryAuto, { passive: true });
+      screenDialog.addEventListener("close", scheduleGalleryAuto);
+      document.addEventListener("visibilitychange", scheduleGalleryAuto);
+      galleryMotion.addEventListener("change", scheduleGalleryAuto);
+
+      document.querySelectorAll("[data-app-store-cta]").forEach((button) => {
+        button.href = getAppStoreDestination();
+        button.addEventListener("click", () => {
+          track("cta_tap", { placement: button.dataset.placement || "unknown", experience_complete: experienceCompleted, mode: experienceStarted ? experienceMode : null, tried_category_count: triedCategories.size, t_start_to_cta: experienceStartedAt ? Math.round(performance.now() - experienceStartedAt) : null, locale });
+          // Native link navigation preserves open-in-new-tab and escapes preview iframes.
+        });
+      });
+
+      track("page_view", { locale });
+    </script>
+  </body>
+</html>
